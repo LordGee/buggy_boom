@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallCreation : MonoBehaviour {
 
-    public float wallSpeed = 5f;
+    public float wallSpeed = 10f;
 
     private float scaleX, scaleY, scaleZ;
     private Color col;
