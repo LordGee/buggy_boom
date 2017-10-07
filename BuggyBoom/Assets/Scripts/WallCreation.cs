@@ -16,6 +16,9 @@ public class WallCreation : MonoBehaviour
     void Start () {
         GetRandomSize();
         transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+
+        // Reference: https://docs.unity3d.com/ScriptReference/Random.ColorHSV.html 
+        GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
     }
 	
 	// Update is called once per frame
