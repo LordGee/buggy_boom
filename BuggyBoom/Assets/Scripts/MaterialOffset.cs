@@ -29,4 +29,6 @@ public class MaterialOffset : MonoBehaviour
 	        offsetSpeed += preIncrementSpeed;
 	    }
 	}
+
+    
 }

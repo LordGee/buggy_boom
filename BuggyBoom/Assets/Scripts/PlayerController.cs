@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    // Public Variables
     [Tooltip("The spped at which the Buggy will translate when input is detected")]
     public float buggySpeed = 10f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    
 	
 	// Update is called once per frame
 	void Update ()

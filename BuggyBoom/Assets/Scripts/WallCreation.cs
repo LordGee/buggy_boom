@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallCreation : MonoBehaviour {
+public class WallCreation : MonoBehaviour
+{
+    //Public Variables
+    public float wallCurrentSpeed = 10f;
+    
 
-    public float wallSpeed = 10f;
-
+    // Private Variables
     private float scaleX, scaleY, scaleZ;
     private Color col;
 
@@ -17,7 +20,7 @@ public class WallCreation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(0f, 0f, -(wallSpeed * Time.deltaTime));
+		transform.Translate(0f, 0f, -(wallCurrentSpeed * Time.deltaTime));
 	}
 
     private void GetRandomSize()

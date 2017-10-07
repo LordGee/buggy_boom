@@ -430,8 +430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1549848579597844, guid: 4675dfc4122b4c34ba0797fe879ba94e, type: 2}
-  timeSinceLastSpawn: 0
-  spawnInterval: 1
+  spawnInterval: 0.5
+  timeBeforeFirstSpawn: 10
 --- !u!4 &1242373958
 Transform:
   m_ObjectHideFlags: 0
@@ -572,7 +572,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1835226473}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -10, y: 20, z: 60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -591,8 +591,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1549848579597844, guid: 4675dfc4122b4c34ba0797fe879ba94e, type: 2}
-  timeSinceLastSpawn: 0
-  spawnInterval: 1
+  spawnInterval: 0.5
+  timeBeforeFirstSpawn: 10
 --- !u!1 &1934851535
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetSpeed: 0.1
-  initialThreshold: 3
+  initialThreshold: 2.4
   preIncrementSpeed: 0.001
 --- !u!1 &2143305467
 GameObject:
