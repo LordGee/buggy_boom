@@ -102,7 +102,7 @@
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
 -define:ENABLE_VSTU
-Assets/FollowPlayer.cs
+Assets/Scripts/FollowPlayer.cs
 Assets/Scripts/MaterialOffset.cs
 Assets/Scripts/NPCObstacle.cs
 Assets/Scripts/ObstacleSpawner.cs

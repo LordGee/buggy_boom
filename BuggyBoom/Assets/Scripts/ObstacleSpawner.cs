@@ -5,25 +5,37 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
 
-    // Public Variables
-    [Tooltip("Attach Prefab of cube with appropriate Rigidbody and COnstraints")] public GameObject carObstacle;
+    // TODO: Make the spawn interval dynamic, interval gradullay decreases.
+    // TODO: Add additional obstacles, such as barriers and pedestrians.
+    // TODO: Add boss vehcle to spawn after set time of play.
+    // TODO: Add several enum states to define appropriate obstacles and duration.
 
-    [Tooltip("Define how often a Wall is Spawned")] public float spawnInterval = 1f;
-    [Tooltip("Define time until the first object is spawned")] public float timeBeforeFirstSpawn = 15f;
-    public int[] laneArray = {-3, -1, 1, 3};
+    // Public Variables
+    [Tooltip("Attach Prefab of cube with appropriate Rigidbody and COnstraints")]
+    public GameObject carObstacle;
+    [Tooltip("Define how often a Wall is Spawned")]
+    public float spawnInterval = 1f;
+    [Tooltip("Define time until the first object is spawned")]
+    public float timeBeforeFirstSpawn = 15f;
 
     // Private Variables
     private float timeSinceLastSpawn = 0f;
     private bool startSpawning = false;
+    public int[] laneArray = { -3, -1, 1, 3 };
 
 
     // Update is called once per frame
     void Update()
     {
+        // checks to see if enough time has elapsed before starting the spawn process
         if (!startSpawning && Time.timeSinceLevelLoad > timeBeforeFirstSpawn)
         {
             startSpawning = true;
         }
+        /*  once the spawn process has starteded a new a new car object will be spawned at
+            specific intervals within the bounds af a random lane on the grid. The object 
+            will be child of the parent spawner and the time counter since the last spawn 
+            is then reset   */
         if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval)
         {
             GameObject newObstacle = Instantiate(
