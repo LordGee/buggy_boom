@@ -32,29 +32,8 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
         }
 	    
-
-        // Checks commonly horizontal type movements
+        CheckPositioningConstraints();
         
-        if (transform.position.x > 5f)
-        {
-            transform.position = new Vector3(5f, 
-                transform.position.y, 
-                transform.position.z);
-        }
-        else if (transform.position.x < -5f)
-        {
-            transform.position = new Vector3(-5f,
-                transform.position.y,
-                transform.position.z);
-        }
-
-	    if (transform.position.z < StartZ)
-	    {
-	        transform.position = new Vector3(
-                transform.position.x,
-                transform.position.y,
-                StartZ);
-	    }
 	}
 
     private float GetTranslatedPosition(float _speed)
@@ -65,5 +44,39 @@ public class PlayerController : MonoBehaviour
     private float GetTranslatedPosition(float _speed, float _move)
     {
         return _move * _speed * Time.deltaTime;
+    }
+
+    private void CheckPositioningConstraints()
+    {
+        if (transform.position.x > 5f)
+        {
+            transform.position = new Vector3(5f,
+                transform.position.y,
+                transform.position.z);
+        }
+        else if (transform.position.x < -5f)
+        {
+            transform.position = new Vector3(-5f,
+                transform.position.y,
+                transform.position.z);
+        }
+
+        if (transform.position.z < StartZ)
+        {
+            transform.position = new Vector3(
+                transform.position.x,
+                transform.position.y,
+                StartZ);
+        }
+
+        // expecting the rotation to be represented in positive and negative (as in the inspector)
+        if (transform.eulerAngles.y > 30f && transform.eulerAngles.y < 180f)
+        {
+            transform.eulerAngles = new Vector3(0f, 30f, 0f);
+        }
+        else if (transform.eulerAngles.y < 330f && transform.eulerAngles.y > 180f)
+        {
+            transform.eulerAngles = new Vector3(0f, -30f, 0f);
+        }
     }
 }
