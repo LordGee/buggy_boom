@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 114311906595663962}
   m_Layer: 0
   m_Name: JeepNPC
-  m_TagString: Untagged
+  m_TagString: NPCJeep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -520,3 +520,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleCurrentSpeed: 10
+  DeathParticleEffect: {fileID: 1252646203410938, guid: ea9f27d832a4e3a439e4044768e6c5f7,
+    type: 2}

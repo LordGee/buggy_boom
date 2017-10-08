@@ -10,7 +10,7 @@ public class WallSpawning : MonoBehaviour
     [Tooltip("Define how often a Wall is Spawned")]
     public float spawnInterval = 0.5f;
     [Tooltip("Define time until the first object is spawned")]
-    public float timeBeforeFirstSpawn = 10f;
+    public float timeBeforeFirstSpawn = 2f;
 
     // Private Variables
     private float timeSinceLastSpawn = 0f;

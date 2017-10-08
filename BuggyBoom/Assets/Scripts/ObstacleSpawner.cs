@@ -16,7 +16,7 @@ public class ObstacleSpawner : MonoBehaviour
     [Tooltip("Define how often a Wall is Spawned")]
     public float spawnInterval = 1f;
     [Tooltip("Define time until the first object is spawned")]
-    public float timeBeforeFirstSpawn = 15f;
+    public float timeBeforeFirstSpawn = 5f;
 
     // Private Variables
     private float timeSinceLastSpawn = 0f;

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/BB_Game.unity
+- path: Assets/_Scenes/BB_02_Game.unity
   isLoaded: 1
   isActive: 1
