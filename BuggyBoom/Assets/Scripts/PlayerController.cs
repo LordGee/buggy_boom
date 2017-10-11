@@ -7,16 +7,19 @@ public class PlayerController : MonoBehaviour
     // Public Variables
     [Tooltip("The spped at which the Buggy will translate when input is detected")]
     public float buggySpeed = 10f;
-
     public float buggySpeedRot = 50f;
+    public GameObject projectile;
+    public float projectileRate = 0.2f;
 
-
+    // Private Variables
     private float StartZ;
+    private float projectileCooldown;
 
 
     void Start()
     {
         StartZ = transform.position.z;
+        projectileCooldown = Time.timeSinceLevelLoad;
     }
 
 	// Update is called once per frame
@@ -31,6 +34,15 @@ public class PlayerController : MonoBehaviour
 	    {
             transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
         }
+
+	    if (Input.GetAxis("Jump") != 0 || Input.GetAxis("Fire1") != 0)
+	    {
+	        if (Time.timeSinceLevelLoad - projectileCooldown > projectileRate)
+	        {
+	            Instantiate(projectile, transform.position, Quaternion.identity);
+	            projectileCooldown = Time.timeSinceLevelLoad;
+	        }
+	    }
 	    
         CheckPositioningConstraints();
         
@@ -69,14 +81,13 @@ public class PlayerController : MonoBehaviour
                 StartZ);
         }
 
-        // expecting the rotation to be represented in positive and negative (as in the inspector)
-        if (transform.eulerAngles.y > 30f && transform.eulerAngles.y < 180f)
+        if (transform.eulerAngles.y > 20f && transform.eulerAngles.y < 180f) // I was expecting the rotation to be represented in positive and negative (as in the inspector) but its not
         {
-            transform.eulerAngles = new Vector3(0f, 30f, 0f);
+            transform.eulerAngles = new Vector3(0f, 20f, 0f);
         }
-        else if (transform.eulerAngles.y < 330f && transform.eulerAngles.y > 180f)
+        else if (transform.eulerAngles.y < 340f && transform.eulerAngles.y > 180f)
         {
-            transform.eulerAngles = new Vector3(0f, -30f, 0f);
+            transform.eulerAngles = new Vector3(0f, -20f, 0f);
         }
     }
 }

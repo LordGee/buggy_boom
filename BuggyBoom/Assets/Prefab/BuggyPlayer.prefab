@@ -121,7 +121,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1072590485398062}
   m_LocalRotation: {x: -2.7755576e-17, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.26718897, y: -0.035930336, z: -0.25899836}
+  m_LocalPosition: {x: 0.26718897, y: -0.035930336, z: 0.2589984}
   m_LocalScale: {x: 0.1, y: 0.1, z: -0.1}
   m_Children: []
   m_Father: {fileID: 4233066133031998}
@@ -134,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1537429862586072}
   m_LocalRotation: {x: 6.123234e-17, y: 1, z: -6.123234e-17, w: -6.123234e-17}
-  m_LocalPosition: {x: -0.26666775, y: -0.035930336, z: -0.25899836}
+  m_LocalPosition: {x: -0.26666775, y: -0.035930336, z: 0.2589984}
   m_LocalScale: {x: 0.1, y: 0.1, z: -0.1}
   m_Children: []
   m_Father: {fileID: 4233066133031998}
@@ -165,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1321795896386974}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.26718897, y: -0.060502335, z: 0.259575}
+  m_LocalPosition: {x: 0.26718897, y: -0.060502335, z: 0.759575}
   m_LocalScale: {x: 0.085894816, y: 0.085894816, z: -0.085894816}
   m_Children: []
   m_Father: {fileID: 4233066133031998}
@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1914931186943460}
   m_LocalRotation: {x: 6.123234e-17, y: 1, z: -6.123234e-17, w: -6.123234e-17}
-  m_LocalPosition: {x: -0.26666775, y: -0.060502335, z: 0.259575}
+  m_LocalPosition: {x: -0.26666775, y: -0.060502335, z: 0.759575}
   m_LocalScale: {x: 0.085894816, y: 0.085894816, z: -0.085894816}
   m_Children: []
   m_Father: {fileID: 4233066133031998}
@@ -191,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624752925487234}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4233066133031998}
@@ -432,3 +432,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buggySpeed: 10
   buggySpeedRot: 50
+  projectile: {fileID: 1726404575796580, guid: cb6bfee3e8fa97e4f8a6b70c8c725957, type: 2}
+  projectileRate: 0.1
