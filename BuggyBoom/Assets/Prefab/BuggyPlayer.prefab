@@ -434,3 +434,4 @@ MonoBehaviour:
   buggySpeedRot: 50
   projectile: {fileID: 1726404575796580, guid: cb6bfee3e8fa97e4f8a6b70c8c725957, type: 2}
   projectileRate: 0.1
+  projectileLife: 1.75

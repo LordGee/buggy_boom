@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float buggySpeedRot = 50f;
     public GameObject projectile;
     public float projectileRate = 0.2f;
+    public float projectileLife = 1.75f;
 
     // Private Variables
     private float StartZ;
@@ -39,7 +40,9 @@ public class PlayerController : MonoBehaviour
 	    {
 	        if (Time.timeSinceLevelLoad - projectileCooldown > projectileRate)
 	        {
-	            Instantiate(projectile, transform.position, Quaternion.identity);
+                Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1);
+	            GameObject newProjectile = Instantiate(projectile, pos, Quaternion.identity);
+                Destroy(newProjectile, projectileLife);
 	            projectileCooldown = Time.timeSinceLevelLoad;
 	        }
 	    }

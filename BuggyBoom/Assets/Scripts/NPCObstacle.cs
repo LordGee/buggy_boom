@@ -34,15 +34,24 @@ public class NPCObstacle : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player")
         {
-            GameObject death = Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
-            Destroy(death, 2f);
+            NpcDeathEffect();
             gameControl.DamagePlayer(npcDamage);
             gameControl.AddPoints(npcSpeed);
             Destroy(this.gameObject, 0.1f); // added this small amount of time makes such a difference
         }
         else if (col.gameObject.tag == "Projectile")
         {
-            gameControl.DamageNPC(this.gameObject, 10f, ref npcHealth);
+            gameControl.DamageNPC(this.gameObject, gameControl.GetPlayerPoints(), gameControl.GetPlayerDamage(), ref npcHealth);
+            if (npcHealth <= 0)
+            {
+                NpcDeathEffect();
+            }
         }
+    }
+
+    void NpcDeathEffect()
+    {
+        GameObject death = Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
+        Destroy(death, 3f);
     }
 }

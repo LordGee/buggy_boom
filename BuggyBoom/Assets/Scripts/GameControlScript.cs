@@ -51,7 +51,7 @@ public class GameControlScript : MonoBehaviour
         }
     }
 
-    public void DamageNPC(GameObject _obj, float _dmg, ref float _hea)
+    public void DamageNPC(GameObject _obj, float _pts, float _dmg, ref float _hea)
     {
         _hea -= _dmg;
         if (_hea <= 0)
@@ -73,6 +73,7 @@ public class GameControlScript : MonoBehaviour
 
     public float GetPlayerHealth() { return playerHealth; }
     public float GetPlayerDamage() { return playerDamage; }
+    public float GetPlayerPoints() { return playerPoints; }
 
     public float GetNpcJeepHealth() { return npcJeepHealth; }
     public float GetNpcJeepDamage() { return npcJeepDamage; }
