@@ -26,7 +26,6 @@ public class NPCObstacle : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        print(npcSpeed);
         transform.Translate(0f, 0f, -(npcSpeed * Time.deltaTime));
     }
 
@@ -45,8 +44,8 @@ public class NPCObstacle : MonoBehaviour {
             if (npcHealth <= 0)
             {
                 NpcDeathEffect();
-                Destroy(col.transform.parent.gameObject);
             }
+            Destroy(col.transform.parent.gameObject);
         }
     }
 

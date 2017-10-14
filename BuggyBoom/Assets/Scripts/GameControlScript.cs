@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameControlScript : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class GameControlScript : MonoBehaviour
     private float progressionTimer, progressionCountdown, progressionIncrementer;
     private const float maxSpeed = 30f;
 
+    private Text scoreDisplay, multiDisplay, healthDisplay;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -25,7 +28,11 @@ public class GameControlScript : MonoBehaviour
 	    progressionTimer = Time.timeSinceLevelLoad;
 	    progressionIncrementer = 0.1f;
 	    progressionCountdown = 12f;
-	}
+	    scoreDisplay = GameObject.Find("Text_ScoreDisplay").GetComponent<Text>();
+	    multiDisplay = GameObject.Find("Text_MultiplerDisplay").GetComponent<Text>();
+	    healthDisplay = GameObject.Find("Text_HealthDisplay").GetComponent<Text>();
+        UpdateHUD();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,6 +45,7 @@ public class GameControlScript : MonoBehaviour
 	        {
 	            ProgressionCalc(ref npcJeepSpeed);
 	        }
+            UpdateHUD();
 	        progressionTimer = Time.timeSinceLevelLoad;
         }
 	}
@@ -56,14 +64,23 @@ public class GameControlScript : MonoBehaviour
         _hea -= _dmg;
         if (_hea <= 0)
         {
-            AddPoints(playerScore);
+            AddPoints(playerPoints);
             Destroy(_obj);
         }
     }
 
     public void AddPoints(float _pts)
     {
-        playerScore += _pts * playerMultipler;
+        playerScore += Mathf.Floor(_pts * playerMultipler);
+        UpdateHUD();
+    }
+
+    private void UpdateHUD()
+    {
+        scoreDisplay.text = playerScore.ToString();
+        multiDisplay.text = playerMultipler.ToString("F1") + "x";
+        SetHealthColour();
+        healthDisplay.text = playerHealth.ToString("F0") + "%";
     }
 
     private void ProgressionCalc(ref float _value)
@@ -78,6 +95,26 @@ public class GameControlScript : MonoBehaviour
     public float GetNpcJeepHealth() { return npcJeepHealth; }
     public float GetNpcJeepDamage() { return npcJeepDamage; }
     public float GetNpcJeepSpeed() { return npcJeepSpeed; }
+
+    private void SetHealthColour()
+    {
+        if (playerHealth > 50)
+        {
+            healthDisplay.color = Color.green;
+        }
+        else if (playerHealth <= 50 && playerHealth > 25)
+        {
+            healthDisplay.color = Color.yellow;
+        }
+        else if (playerHealth <= 25)
+        {
+            healthDisplay.color = Color.red;
+        }
+        else
+        {
+            healthDisplay.color = Color.black;
+        }
+    }
 
     void GameOver()
     {
