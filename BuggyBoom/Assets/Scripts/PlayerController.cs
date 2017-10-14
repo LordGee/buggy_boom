@@ -40,7 +40,9 @@ public class PlayerController : MonoBehaviour
         }
 
 	    Vector3 fwd = transform.TransformDirection(Vector3.forward);
-	    if (Physics.Raycast(transform.position, fwd, out detector, detectorDistance))
+	    
+
+        if (Physics.SphereCast(transform.position, transform.localScale.y / 2, fwd, out detector, detectorDistance))
 	    {
 	        if (detector.transform.tag != "Wall")
 	        {
