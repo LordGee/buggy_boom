@@ -3933,6 +3933,9 @@ MonoBehaviour:
     type: 2}
   spawnInterval: 1
   timeBeforeFirstSpawn: 5
+  materials:
+  - {fileID: 2100000, guid: 6e33bccef56fe40678fb5405109e495b, type: 2}
+  - {fileID: 2100000, guid: 18b77ca565d1a463a97ad28cf586cb1c, type: 2}
   laneArray: fdffffffffffffff0100000003000000
 --- !u!1 &860747606
 GameObject:

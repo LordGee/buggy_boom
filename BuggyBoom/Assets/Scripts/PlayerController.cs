@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,11 +12,13 @@ public class PlayerController : MonoBehaviour
     public GameObject projectile;
     public float projectileRate = 0.2f;
     public float projectileLife = 1.75f;
+    public float detectorDistance = 30f;
 
     // Private Variables
     private float StartZ;
     private float projectileCooldown;
-
+    private RaycastHit detector;
+    private int projectileCounter;
 
     void Start()
     {
@@ -36,20 +39,52 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
         }
 
-	    if (Input.GetAxis("Jump") != 0 || Input.GetAxis("Fire1") != 0)
+	    Vector3 fwd = transform.TransformDirection(Vector3.forward);
+	    if (Physics.Raycast(transform.position, fwd, out detector, detectorDistance))
 	    {
-	        if (Time.timeSinceLevelLoad - projectileCooldown > projectileRate)
+	        if (detector.transform.tag != "Wall")
 	        {
-                Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1);
-	            GameObject newProjectile = Instantiate(projectile, pos, Quaternion.identity);
-                Destroy(newProjectile, projectileLife);
-	            projectileCooldown = Time.timeSinceLevelLoad;
+	            if (detector.transform.tag == "Projectile")
+	            {
+	                if (projectileCounter <= 5)
+	                {
+	                    if (FireProjectile())
+	                    {
+	                        projectileCounter++;
+	                    }
+                    }           
+	            }
+	            else
+	            {
+	                FireProjectile();
+	                projectileCounter = 0;
+	            }
+	            print(projectileCounter);
 	        }
+        }
+	        
+
+        if (Input.GetAxis("Jump") != 0 || Input.GetAxis("Fire1") != 0)
+	    {
+	        FireProjectile();
 	    }
 	    
         CheckPositioningConstraints();
         
 	}
+
+    private bool FireProjectile()
+    {
+        if (Time.timeSinceLevelLoad - projectileCooldown > projectileRate)
+        {
+            Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1);
+            GameObject newProjectile = Instantiate(projectile, pos, Quaternion.identity);
+            Destroy(newProjectile, projectileLife);
+            projectileCooldown = Time.timeSinceLevelLoad;
+            return true;
+        }
+        return false;
+    }
 
     private float GetTranslatedPosition(float _speed)
     {
