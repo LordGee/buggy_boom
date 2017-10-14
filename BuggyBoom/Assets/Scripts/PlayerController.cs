@@ -19,11 +19,13 @@ public class PlayerController : MonoBehaviour
     private float projectileCooldown;
     private RaycastHit detector;
     private int projectileCounter;
+    private Animator anim;
 
     void Start()
     {
         StartZ = transform.position.z;
         projectileCooldown = Time.timeSinceLevelLoad;
+        anim = GetComponent<Animator>();
     }
 
 	// Update is called once per frame
@@ -33,10 +35,22 @@ public class PlayerController : MonoBehaviour
 	    if (Input.GetAxis("Horizontal") !=0)
 	    {
 	        transform.Rotate(0f, GetTranslatedPosition(buggySpeedRot), 0f);
+	        if (Input.GetAxis("Horizontal") > 0)
+	        {
+	            anim.SetBool("TurnRight", true);
+	            anim.SetBool("TurnLeft", false);
+            }
+            else if (Input.GetAxis("Horizontal") < 0)
+	        {
+	            anim.SetBool("TurnRight", false);
+	            anim.SetBool("TurnLeft", true);
+	        }
         }
 	    else
 	    {
             transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
+	        anim.SetBool("TurnRight", false);
+	        anim.SetBool("TurnLeft", false);
         }
 
 	    Vector3 fwd = transform.TransformDirection(Vector3.forward);
