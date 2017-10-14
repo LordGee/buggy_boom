@@ -6,6 +6,8 @@ public class WallCreation : MonoBehaviour
 {
     //Public Variables
     public float wallCurrentSpeed = 10f;
+
+    public GameObject explosion;
     
 
     // Private Variables
@@ -31,5 +33,21 @@ public class WallCreation : MonoBehaviour
         scaleX = Random.Range(2f, 8f);
         scaleY = Random.Range(2f, 10f);
         scaleZ = Random.Range(2f, 5f);
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag != "Road")
+        {
+            Instantiate(explosion, col.transform.position, Quaternion.identity);
+            if (col.gameObject.tag == "Projectile")
+            {
+                Destroy(col.transform.parent.gameObject);
+            }
+            else
+            {
+                Destroy(col.gameObject);
+            }
+        }
     }
 }

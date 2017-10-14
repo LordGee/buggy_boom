@@ -45,6 +45,7 @@ public class NPCObstacle : MonoBehaviour {
             if (npcHealth <= 0)
             {
                 NpcDeathEffect();
+                Destroy(col.transform.parent.gameObject);
             }
         }
     }
