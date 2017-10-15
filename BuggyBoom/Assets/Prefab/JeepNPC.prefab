@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 54301983840791330}
   - component: {fileID: 65318378014675822}
   - component: {fileID: 114311906595663962}
+  - component: {fileID: 114193737357252040}
   m_Layer: 0
   m_Name: JeepNPC
   m_TagString: NPCJeep
@@ -519,6 +520,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114193737357252040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1383345361147944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b303d0a9b948ef74dbb328b29a509c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 6e33bccef56fe40678fb5405109e495b, type: 2}
+  - {fileID: 2100000, guid: 18b77ca565d1a463a97ad28cf586cb1c, type: 2}
 --- !u!114 &114311906595663962
 MonoBehaviour:
   m_ObjectHideFlags: 1

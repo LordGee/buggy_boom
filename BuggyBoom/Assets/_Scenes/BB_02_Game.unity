@@ -3873,9 +3873,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 100
   playerDamage: 10
+  npcGameObjects:
+  - {fileID: 1383345361147944, guid: 6897165a797204e419d2e351b5bcb558, type: 2}
+  - {fileID: 1475219035201014, guid: 4cb96b637fe7c674c807eeb60f292ccd, type: 2}
   npcJeepHealth: 10
   npcJeepDamage: 10
   npcJeepSpeed: 10
+  npcBlockHealth: 999999
+  npcBlockDamage: 999999
+  npcBlockSpeed: 12
+  npcSpawnDuration: 15
 --- !u!4 &354269412
 Transform:
   m_ObjectHideFlags: 0
@@ -3929,14 +3936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd572993c6a2e847ae32fead1995a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carObstacle: {fileID: 1383345361147944, guid: 6897165a797204e419d2e351b5bcb558,
-    type: 2}
-  spawnInterval: 1
+  spawnMin: 0.1
+  spawnMax: 1
   timeBeforeFirstSpawn: 5
-  materials:
-  - {fileID: 2100000, guid: 6e33bccef56fe40678fb5405109e495b, type: 2}
-  - {fileID: 2100000, guid: 18b77ca565d1a463a97ad28cf586cb1c, type: 2}
-  laneArray: fdffffffffffffff0100000003000000
 --- !u!1 &860747606
 GameObject:
   m_ObjectHideFlags: 0

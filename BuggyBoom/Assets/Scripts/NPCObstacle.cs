@@ -18,9 +18,9 @@ public class NPCObstacle : MonoBehaviour {
     void Start()
     {
         gameControl = FindObjectOfType<GameControlScript>();
-        npcHealth = gameControl.GetNpcJeepHealth();
-        npcDamage = gameControl.GetNpcJeepDamage();
-        npcSpeed = gameControl.GetNpcJeepSpeed();
+        npcHealth = gameControl.GetNpcHealth(gameObject);
+        npcDamage = gameControl.GetNpcDamage(gameObject);
+        npcSpeed = gameControl.GetNpcSpeed(gameObject);
     }
 
     // Update is called once per frame

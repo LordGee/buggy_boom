@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Array = UnityScript.Lang.Array;
+using Random = UnityEngine.Random;
 
 public class GameControlScript : MonoBehaviour
 {
@@ -9,15 +12,32 @@ public class GameControlScript : MonoBehaviour
     public float playerHealth = 100f;
     public float playerDamage = 10f;
 
+    public GameObject[] npcGameObjects;
+
     public float npcJeepHealth = 10f;
     public float npcJeepDamage = 10f;
     public float npcJeepSpeed = 10f;
 
+    public float npcBlockHealth = 999999f;
+    public float npcBlockDamage = 999999f;
+    public float npcBlockSpeed = 12f;
+
     private float playerScore, playerMultipler, playerPoints;
     private float progressionTimer, progressionCountdown, progressionIncrementer;
     private const float maxSpeed = 30f;
+    private bool invinsible = false;
 
     private Text scoreDisplay, multiDisplay, healthDisplay;
+
+    private int[] roadLaneArray = { -3, -1, 1, 3 };
+    private int[] fullLaneArray = { -5, -3, -1, 1, 3, 5 };
+
+    // private float npcTimer;
+    // private enum NPC_SPAWN_STATES { Jeep, Block };
+    // private System.Array spawnArray;
+    // private NPC_SPAWN_STATES spawn;
+
+    public float npcSpawnDuration = 15f;
 
 	// Use this for initialization
 	void Start ()
@@ -28,15 +48,18 @@ public class GameControlScript : MonoBehaviour
 	    progressionTimer = Time.timeSinceLevelLoad;
 	    progressionIncrementer = 0.1f;
 	    progressionCountdown = 12f;
-	    scoreDisplay = GameObject.Find("Text_ScoreDisplay").GetComponent<Text>();
+	    // spawnArray = Enum.GetValues(typeof(NPC_SPAWN_STATES));
+
+        scoreDisplay = GameObject.Find("Text_ScoreDisplay").GetComponent<Text>();
 	    multiDisplay = GameObject.Find("Text_MultiplerDisplay").GetComponent<Text>();
 	    healthDisplay = GameObject.Find("Text_HealthDisplay").GetComponent<Text>();
         UpdateHUD();
     }
 	
 	// Update is called once per frame
-	void Update () {
-	    if (Time.timeSinceLevelLoad - progressionTimer > progressionCountdown)
+	void Update ()
+	{
+        if (Time.timeSinceLevelLoad - progressionTimer > progressionCountdown)
 	    {
             ProgressionCalc(ref npcJeepHealth);
 	        ProgressionCalc(ref playerMultipler);
@@ -50,13 +73,25 @@ public class GameControlScript : MonoBehaviour
         }
 	}
 
-     public void DamagePlayer(float _dmg)
+    public void DamagePlayer(float _dmg)
     {
-        playerHealth -= _dmg;
+        if (!invinsible)
+        {
+            playerHealth -= _dmg;
+            playerMultipler = 1;
+            invinsible = !invinsible;
+        }
+        StartCoroutine(PlayerHit());
         if (playerHealth <= 0)
         {
             GameOver();
         }
+    }
+
+    private IEnumerator PlayerHit()
+    {
+        yield return new WaitForSeconds(1.0f);
+        invinsible = false;
     }
 
     public void DamageNPC(GameObject _obj, float _pts, float _dmg, ref float _hea)
@@ -92,9 +127,39 @@ public class GameControlScript : MonoBehaviour
     public float GetPlayerDamage() { return playerDamage; }
     public float GetPlayerPoints() { return playerPoints; }
 
-    public float GetNpcJeepHealth() { return npcJeepHealth; }
-    public float GetNpcJeepDamage() { return npcJeepDamage; }
-    public float GetNpcJeepSpeed() { return npcJeepSpeed; }
+    public float GetNpcHealth(GameObject _obj)
+    {
+        return (_obj.tag == "NPCJeep") ? npcJeepHealth : (_obj.tag == "RoadBlock") ? npcBlockHealth : 0; 
+    }
+
+    public float GetNpcDamage(GameObject _obj)
+    {
+        return (_obj.tag == "NPCJeep") ? npcJeepDamage : (_obj.tag == "RoadBlock") ? npcBlockHealth : 0;
+    }
+
+    public float GetNpcSpeed(GameObject _obj)
+    {
+        return (_obj.tag == "NPCJeep") ? npcJeepSpeed : (_obj.tag == "RoadBlock") ? npcBlockSpeed : 0;
+    }
+
+    public GameObject GetNpcGameObjectToSpawn()
+    {
+        return npcGameObjects[Random.Range(0, npcGameObjects.Length)];
+
+    }
+
+    public int[] GetLaneArray(GameObject _obj)
+    {
+        if (_obj.tag == "NPCJeep")
+        {
+            return roadLaneArray;
+        }
+        else 
+        {
+            return fullLaneArray;
+        }
+        
+    }
 
     private void SetHealthColour()
     {
