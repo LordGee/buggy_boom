@@ -18,7 +18,6 @@ public class RoadBlock : MonoBehaviour
 	void Update () {
 	    if (transform.position.x > originalX || transform.position.x < originalX)
 	    {
-            print(originalX);
 	        transform.position = new Vector3(originalX,
 	            transform.position.y,
 	            transform.position.z);

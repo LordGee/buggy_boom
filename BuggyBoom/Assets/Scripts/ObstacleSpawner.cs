@@ -26,6 +26,8 @@ public class ObstacleSpawner : MonoBehaviour
     private GameObject obstacle;
     private GameControlScript gameControl;
 
+    private int roadBlockCount = 3;
+
     void Start()
     {
         gameControl = FindObjectOfType<GameControlScript>();
@@ -46,12 +48,55 @@ public class ObstacleSpawner : MonoBehaviour
         if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval)
         {
             obstacle = gameControl.GetNpcGameObjectToSpawn();
-            laneArray = gameControl.GetLaneArray(obstacle);
-            GameObject newObstacle = Instantiate( obstacle, new Vector3( laneArray[Random.Range(0, laneArray.Length)], transform.position.y, transform.position.z), Quaternion.identity);
-            newObstacle.transform.parent = gameObject.transform;
+            laneArray = gameControl.GetLaneArray();
+            if (obstacle.tag == "RoadBlock")
+            {
+                RoadBlockSpawn();
+            }
+            else
+            {
+                Spawn();
+            }
+            
 
             timeSinceLastSpawn = Time.timeSinceLevelLoad;
-            spawnInterval = Random.Range(spawnMin, spawnMax);
+            
+        }
+    }
+
+    void Spawn()
+    {
+        GameObject newObstacle = Instantiate(obstacle, new Vector3(laneArray[Random.Range(0, laneArray.Length)], transform.position.y, transform.position.z), Quaternion.identity);
+        newObstacle.transform.parent = gameObject.transform;
+        spawnInterval = Random.Range(spawnMin, spawnMax);
+    }
+
+    void RoadBlockSpawn()
+    {
+        int[] tempLanes = new int[roadBlockCount];
+        int insertCount = roadBlockCount;
+        bool test = true;
+        for (int i = 0; i < tempLanes.Length; i++)
+        {
+            tempLanes[i] = Random.Range(0, laneArray.Length);
+            for (int j = 0; j < tempLanes.Length; j++)
+            {
+                if (tempLanes[i] == tempLanes[j] && i != j)
+                {
+                    test = false;
+                }
+            }
+            if (!test)
+            {
+                i--;
+                test = true;
+            }
+        }
+        for (int i = 0; i < tempLanes.Length; i++)
+        {
+            GameObject newObstacle = Instantiate(obstacle, new Vector3(laneArray[tempLanes[i]], transform.position.y, transform.position.z), Quaternion.identity);
+            newObstacle.transform.parent = gameObject.transform;
+            spawnInterval = Random.Range(spawnMin + 0.5f, spawnMax + 0.5f);
         }
     }
 }

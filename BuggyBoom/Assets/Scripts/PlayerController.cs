@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.SphereCast(transform.position, transform.localScale.y / 2, fwd, out detector, detectorDistance))
 	    {
-	        if (detector.transform.tag != "Wall")
+	        if (detector.transform.tag != "Wall" && detector.transform.tag != "RoadBlock")
 	        {
 	            if (detector.transform.tag == "Projectile")
 	            {

@@ -28,7 +28,7 @@ public class WallCreation : MonoBehaviour
 		transform.Translate(0f, 0f, -(wallCurrentSpeed * Time.deltaTime));
 	}
 
-    private void GetRandomSize()
+    void GetRandomSize()
     {
         scaleX = Random.Range(2f, 8f);
         scaleY = Random.Range(2f, 10f);
