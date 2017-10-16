@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviour
 	                FireProjectile();
 	                projectileCounter = 0;
 	            }
-	            print(projectileCounter);
 	        }
         }
 	        
