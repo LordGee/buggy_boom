@@ -35,7 +35,9 @@ public class GameControlScript : MonoBehaviour
     private enum SPAWN_NPC { Jeep, Block };
     private SPAWN_NPC currentSpawn;
 
-    public float npcSpawnDuration = 15f;
+    public GameObject[] collectables;
+
+
 
 	// Use this for initialization
 	void Start ()
@@ -105,6 +107,7 @@ public class GameControlScript : MonoBehaviour
         if (_hea <= 0)
         {
             AddPoints(playerPoints);
+            SpawnCollectable(_obj.transform.position);
             Destroy(_obj);
         }
     }
@@ -113,6 +116,27 @@ public class GameControlScript : MonoBehaviour
     {
         playerScore += Mathf.Floor(_pts * playerMultipler);
         UpdateHUD();
+    }
+
+    private void SpawnCollectable(Vector3 pos)
+    {
+        int spawnValue = -1;
+        bool next = true;
+        for (int i = 0; i < collectables.Length; i++)
+        {
+            if (Random.Range(0, 2) == 1 && next)
+            {
+                spawnValue = i;
+            }
+            else
+            {
+                next = false;
+            }
+        }
+        if (spawnValue != -1)
+        {
+            Instantiate(collectables[spawnValue], pos, Quaternion.identity);
+        }
     }
 
     private void UpdateHUD()

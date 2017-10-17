@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Road
   - RoadBlock
+  - Collect
   layers:
   - Default
   - TransparentFX

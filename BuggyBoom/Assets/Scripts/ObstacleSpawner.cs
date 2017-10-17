@@ -74,7 +74,6 @@ public class ObstacleSpawner : MonoBehaviour
     void RoadBlockSpawn()
     {
         int[] tempLanes = new int[roadBlockCount];
-        int insertCount = roadBlockCount;
         bool test = true;
         for (int i = 0; i < tempLanes.Length; i++)
         {
