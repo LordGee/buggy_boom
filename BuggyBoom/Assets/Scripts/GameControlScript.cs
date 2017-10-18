@@ -22,6 +22,10 @@ public class GameControlScript : MonoBehaviour
     public float npcBlockDamage = 999999f;
     public float npcBlockSpeed = 12f;
 
+    public float npcMonsterHealth = 1000f;
+    public float npcMonsterDamage = 20f;
+    public float npcMonsterSpeed = 18f;
+
     private float playerScore, playerMultipler, playerPoints;
     private float progressionTimer, progressionCountdown, progressionIncrementer;
     private const float maxSpeed = 30f;

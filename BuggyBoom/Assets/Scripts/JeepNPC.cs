@@ -17,11 +17,15 @@ public class JeepNPC : MonoBehaviour {
     void Start()
     {
         GameObject obj = transform.Find("JEEP_BODY").gameObject;
-        obj.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
         if (Random.Range(0,3) == 1)
         {
             shooter = true;
+            obj.GetComponent<Renderer>().material = materials[1];
             shootTimer = Time.timeSinceLevelLoad;
+        }
+        else
+        {
+            obj.GetComponent<Renderer>().material = materials[0];
         }
     }
 

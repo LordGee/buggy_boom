@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     // Private Variables
     private float StartZ;
     private float projectileCooldown;
+    private float projectileCounter = 0;
     private RaycastHit detector;
     private Animator anim;
     private GameControlScript gameControl;
@@ -57,8 +58,23 @@ public class PlayerController : MonoBehaviour
 	    Vector3 fwd = transform.TransformDirection(Vector3.forward);
         if (Physics.SphereCast(transform.position, transform.localScale.y / 2, fwd, out detector, detectorDistance))
 	    {
-	        if (detector.transform.tag == "NPCJeep")
+	        if (detector.transform.tag == "NPCJeep" || detector.transform.tag == "Projectile")
 	        {
+	            if (detector.transform.tag == "Projectile")
+	            {
+	                if (projectileCounter <= 5)
+	                {
+	                    if (FireProjectile())
+	                    {
+	                        projectileCounter++;
+	                    }
+	                }
+	            }
+	            else
+	            {
+	                FireProjectile();
+	                projectileCounter = 0;
+	            }
                 FireProjectile();
 	        }
         }
