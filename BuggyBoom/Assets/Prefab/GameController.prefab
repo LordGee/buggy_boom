@@ -65,3 +65,4 @@ MonoBehaviour:
   collectables:
   - {fileID: 1097053209613298, guid: b8b6b999f3e272f4297889f6ec3d4548, type: 2}
   - {fileID: 1772467043559160, guid: ceaea03e45bfcb941981e7fa3b962f59, type: 2}
+  - {fileID: 1881551090441726, guid: 8aa47bab50d4c5945b7eeba0e352c7cf, type: 2}

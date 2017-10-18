@@ -10,6 +10,7 @@ TagManager:
   - Road
   - RoadBlock
   - Collect
+  - ProjectileEnemy
   layers:
   - Default
   - TransparentFX

@@ -768,7 +768,7 @@ GameObject:
   - component: {fileID: 65449526290780990}
   - component: {fileID: 114432618922754828}
   m_Layer: 0
-  m_Name: GoldBarsCollect
+  m_Name: CollectGoldBars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -118,6 +118,17 @@ public class GameControlScript : MonoBehaviour
         UpdateHUD();
     }
 
+    public void RepairBuggy(float _value)
+    {
+        playerHealth += _value;
+        if (playerHealth > 100)
+        {
+            AddPoints(playerHealth - 100);
+            playerHealth = 100;
+        }
+        UpdateHUD();
+    }
+
     private void SpawnCollectable(Vector3 pos)
     {
         int spawnValue = -1;

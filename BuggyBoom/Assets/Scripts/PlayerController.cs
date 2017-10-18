@@ -10,22 +10,23 @@ public class PlayerController : MonoBehaviour
     public float buggySpeed = 10f;
     public float buggySpeedRot = 50f;
     public GameObject projectile;
-    public float projectileRate = 0.2f;
-    public float projectileLife = 1.75f;
-    public float detectorDistance = 30f;
+    private float projectileRate = 0.1f;
+    private float projectileLife = 1.75f;
+    private float detectorDistance = 30f;
 
     // Private Variables
     private float StartZ;
     private float projectileCooldown;
     private RaycastHit detector;
-    private int projectileCounter;
     private Animator anim;
+    private GameControlScript gameControl;
 
     void Start()
     {
         StartZ = transform.position.z;
         projectileCooldown = Time.timeSinceLevelLoad;
         anim = GetComponent<Animator>();
+        gameControl = FindObjectOfType<GameControlScript>();
     }
 
 	// Update is called once per frame
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
 	    transform.Translate(GetTranslatedPosition(buggySpeed), 0f, 0f);
 	    if (Input.GetAxis("Horizontal") !=0)
 	    {
-	        transform.Rotate(0f, GetTranslatedPosition(buggySpeedRot), 0f);
+	        //transform.Rotate(0f, GetTranslatedPosition(buggySpeedRot), 0f);
 	        if (Input.GetAxis("Horizontal") > 0)
 	        {
 	            anim.SetBool("TurnRight", true);
@@ -48,33 +49,17 @@ public class PlayerController : MonoBehaviour
         }
 	    else
 	    {
-            transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
+            //transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
 	        anim.SetBool("TurnRight", false);
 	        anim.SetBool("TurnLeft", false);
         }
 
 	    Vector3 fwd = transform.TransformDirection(Vector3.forward);
-	    
-
         if (Physics.SphereCast(transform.position, transform.localScale.y / 2, fwd, out detector, detectorDistance))
 	    {
-	        if (detector.transform.tag != "Wall" && detector.transform.tag != "RoadBlock")
+	        if (detector.transform.tag == "NPCJeep")
 	        {
-	            if (detector.transform.tag == "Projectile")
-	            {
-	                if (projectileCounter <= 5)
-	                {
-	                    if (FireProjectile())
-	                    {
-	                        projectileCounter++;
-	                    }
-                    }           
-	            }
-	            else
-	            {
-	                FireProjectile();
-	                projectileCounter = 0;
-	            }
+                FireProjectile();
 	        }
         }
 	        
@@ -87,6 +72,17 @@ public class PlayerController : MonoBehaviour
         CheckPositioningConstraints();
         
 	}
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "ProjectileEnemy")
+        {
+            float dmg = col.gameObject.GetComponentInParent<ProjectileSpawnEnemy>().GetProjectileDamage();
+            gameControl.DamagePlayer(dmg);
+            GameObject parent = col.transform.parent.gameObject;
+            Destroy(parent);
+        }
+    }
 
     private bool FireProjectile()
     {
