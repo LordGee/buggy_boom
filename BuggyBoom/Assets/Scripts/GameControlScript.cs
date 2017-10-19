@@ -24,10 +24,11 @@ public class GameControlScript : MonoBehaviour
 
     public float npcMonsterHealth = 1000f;
     public float npcMonsterDamage = 20f;
-    public float npcMonsterSpeed = 18f;
+    public float npcMonsterSpeed = 2f;
 
     private float playerScore, playerMultipler, playerPoints;
     private float progressionTimer, progressionCountdown, progressionIncrementer;
+    private float bossTimer, bossCountdown;
     private const float maxSpeed = 30f;
     private bool invinsible = false;
 
@@ -35,9 +36,10 @@ public class GameControlScript : MonoBehaviour
 
     private int[] roadLaneArray = { -3, -1, 1, 3 };
     private int[] fullLaneArray = { -5, -3, -1, 1, 3, 5 };
+    private int[] bossLaneArray = { 0 };
 
-    private enum SPAWN_NPC { Jeep, Block };
-    private SPAWN_NPC currentSpawn;
+    public enum SPAWN_NPC { Jeep, Block, Boss };
+    public SPAWN_NPC currentSpawn;
 
     public GameObject[] collectables;
 
@@ -52,6 +54,8 @@ public class GameControlScript : MonoBehaviour
 	    progressionTimer = Time.timeSinceLevelLoad;
 	    progressionIncrementer = 0.1f;
 	    progressionCountdown = 8f;
+	    bossTimer = Time.timeSinceLevelLoad;
+	    bossCountdown = 10f;
 	    currentSpawn = SPAWN_NPC.Jeep;
         scoreDisplay = GameObject.Find("Text_ScoreDisplay").GetComponent<Text>();
 	    multiDisplay = GameObject.Find("Text_MultiplerDisplay").GetComponent<Text>();
@@ -62,26 +66,38 @@ public class GameControlScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        if (Time.timeSinceLevelLoad - progressionTimer > progressionCountdown)
+	    if (currentSpawn != SPAWN_NPC.Boss)
 	    {
-            ProgressionCalc(ref npcJeepHealth);
-	        ProgressionCalc(ref playerMultipler);
-	        ProgressionCalc(ref progressionCountdown);
-	        if (npcJeepSpeed <= maxSpeed)
+	        if (Time.timeSinceLevelLoad - progressionTimer > progressionCountdown)
 	        {
-	            ProgressionCalc(ref npcJeepSpeed);
+	            ProgressionCalc(ref npcJeepHealth);
+	            ProgressionCalc(ref playerMultipler);
+	            ProgressionCalc(ref progressionCountdown);
+	            if (npcJeepSpeed <= maxSpeed)
+	            {
+	                ProgressionCalc(ref npcJeepSpeed);
+	            }
+	            if (currentSpawn == SPAWN_NPC.Jeep)
+	            {
+	                currentSpawn = SPAWN_NPC.Block;
+	            }
+	            else
+	            {
+	                currentSpawn = SPAWN_NPC.Jeep;
+	            }
+	            UpdateHUD();
+	            progressionTimer = Time.timeSinceLevelLoad;
 	        }
-	        if (currentSpawn == SPAWN_NPC.Jeep)
+	        if (Time.timeSinceLevelLoad - bossTimer > bossCountdown)
 	        {
-	            currentSpawn = SPAWN_NPC.Block;
+	            currentSpawn = SPAWN_NPC.Boss;
 	        }
-	        else
-	        {
-	            currentSpawn = SPAWN_NPC.Jeep;
-	        }
-            UpdateHUD();
-	        progressionTimer = Time.timeSinceLevelLoad;
+
         }
+	    else
+	    {
+	        
+	    }
 	}
 
     public void DamagePlayer(float _dmg)
@@ -97,6 +113,7 @@ public class GameControlScript : MonoBehaviour
         {
             GameOver();
         }
+        UpdateHUD();
     }
 
     private IEnumerator PlayerHit()
@@ -111,9 +128,31 @@ public class GameControlScript : MonoBehaviour
         if (_hea <= 0)
         {
             AddPoints(playerPoints);
-            SpawnCollectable(_obj.transform.position);
+            if (currentSpawn == SPAWN_NPC.Boss)
+            {
+                for (int i = 0; i < Mathf.Floor(playerMultipler * 5); i++)
+                {
+                    SpawnCollectable(new Vector3(_obj.transform.position.x + Random.Range(-1f, 1f), _obj.transform.position.y, _obj.transform.position.z + Random.Range(-1f, 1f)));
+                }
+                currentSpawn = SPAWN_NPC.Jeep;
+                bossTimer = Time.timeSinceLevelLoad;
+                LevelUp();
+            }
+            else
+            {
+                SpawnCollectable(_obj.transform.position);
+            }
             Destroy(_obj);
         }
+    }
+
+    private void LevelUp()
+    {
+        npcJeepDamage += 5;
+        npcMonsterDamage += 5;
+        playerDamage += 5;
+        npcMonsterHealth += 500;
+        playerMultipler *= 2;
     }
 
     public void AddPoints(float _pts)
@@ -173,27 +212,27 @@ public class GameControlScript : MonoBehaviour
 
     public float GetNpcHealth()
     {
-        return (currentSpawn == SPAWN_NPC.Jeep) ? npcJeepHealth : (currentSpawn == SPAWN_NPC.Block) ? npcBlockHealth : 0; 
+        return (currentSpawn == SPAWN_NPC.Jeep) ? npcJeepHealth : (currentSpawn == SPAWN_NPC.Block) ? npcBlockHealth : (currentSpawn == SPAWN_NPC.Boss) ? npcMonsterHealth : 0; 
     }
 
     public float GetNpcDamage()
     {
-        return (currentSpawn == SPAWN_NPC.Jeep) ? npcJeepDamage : (currentSpawn == SPAWN_NPC.Block) ? npcBlockHealth : 0;
+        return (currentSpawn == SPAWN_NPC.Jeep) ? npcJeepDamage : (currentSpawn == SPAWN_NPC.Block) ? npcBlockHealth : (currentSpawn == SPAWN_NPC.Boss) ? npcMonsterDamage : 0;
     }
 
     public float GetNpcSpeed()
     {
-        return (currentSpawn == SPAWN_NPC.Jeep) ? npcJeepSpeed : (currentSpawn == SPAWN_NPC.Block) ? npcBlockSpeed : 0;
+        return (currentSpawn == SPAWN_NPC.Jeep) ? npcJeepSpeed : (currentSpawn == SPAWN_NPC.Block) ? npcBlockSpeed : (currentSpawn == SPAWN_NPC.Boss) ? npcMonsterSpeed : 0;
     }
 
     public GameObject GetNpcGameObjectToSpawn()
     {
-        return (currentSpawn == SPAWN_NPC.Jeep) ? npcGameObjects[0] : (currentSpawn == SPAWN_NPC.Block) ? npcGameObjects[1] : npcGameObjects[0];
+        return (currentSpawn == SPAWN_NPC.Jeep) ? npcGameObjects[0] : (currentSpawn == SPAWN_NPC.Block) ? npcGameObjects[1] : (currentSpawn == SPAWN_NPC.Boss) ? npcGameObjects[2] : npcGameObjects[0];
     }
 
     public int[] GetLaneArray()
     {
-        return (currentSpawn == SPAWN_NPC.Jeep) ? roadLaneArray : (currentSpawn == SPAWN_NPC.Block) ? fullLaneArray : roadLaneArray;
+        return (currentSpawn == SPAWN_NPC.Jeep) ? roadLaneArray : (currentSpawn == SPAWN_NPC.Block) ? fullLaneArray : (currentSpawn == SPAWN_NPC.Boss) ? bossLaneArray : roadLaneArray;
     }
 
     private void SetHealthColour()

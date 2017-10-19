@@ -78,8 +78,6 @@ public class PlayerController : MonoBehaviour
                 FireProjectile();
 	        }
         }
-	        
-
         if (Input.GetAxis("Jump") != 0 || Input.GetAxis("Fire1") != 0)
 	    {
 	        FireProjectile();

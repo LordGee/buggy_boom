@@ -6,16 +6,20 @@ public class JeepNPC : MonoBehaviour {
 
     public Material[] materials;
     public GameObject projectile;
+    private GameControlScript gameControl;
     private int[] roadLaneArray = { -3, -1, 1, 3 };
     private bool shooter = false;
     private float shootTimer;
     private float shootFreq = 3f;
-    public float projectileLife = 1.75f;
+    private float projectileLife = 4f;
+    private float npcDamage;
 
 
     // Use this for initialization
     void Start()
     {
+        gameControl = FindObjectOfType<GameControlScript>();
+        npcDamage = gameControl.GetNpcDamage();
         GameObject obj = transform.Find("JEEP_BODY").gameObject;
         if (Random.Range(0,3) == 1)
         {
@@ -36,7 +40,8 @@ public class JeepNPC : MonoBehaviour {
             GameObject proj = Instantiate(projectile, 
                 new Vector3(transform.position.x, transform.position.y, transform.position.z - 1),
                 Quaternion.identity);
-            Destroy(proj, 3f);
+            proj.GetComponent<ProjectileSpawnEnemy>().projectileDamage = npcDamage;
+            Destroy(proj, projectileLife);
             shootTimer = Time.timeSinceLevelLoad;
         }
     }

@@ -7,13 +7,13 @@ public class ProjectileSpawnEnemy : MonoBehaviour {
     public float projectileSpeed = 24f;
     private GameObject player;
     private Vector3 originalPlayerPosision;
-    private float projectileDamage = 10f;
+    public float projectileDamage = 10f;
 
     // Use this for initialization
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        originalPlayerPosision = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 20);
+        originalPlayerPosision = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 1);
     }
 
     // Update is called once per frame
@@ -24,6 +24,10 @@ public class ProjectileSpawnEnemy : MonoBehaviour {
             transform.position,
             originalPlayerPosision,
             projectileSpeed * Time.deltaTime);
+        if (transform.position == originalPlayerPosision)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public float GetProjectileDamage()

@@ -25,6 +25,7 @@ public class ObstacleSpawner : MonoBehaviour
     private int[] laneArray;
     private GameObject obstacle;
     private GameControlScript gameControl;
+    private bool bossSpawned;
 
     private int roadBlockCount = 3;
 
@@ -45,7 +46,9 @@ public class ObstacleSpawner : MonoBehaviour
             specific intervals within the bounds af a random lane on the grid. The object 
             will be child of the parent spawner and the time counter since the last spawn 
             is then reset   */
-        if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval)
+        bool bossTime = gameControl.currentSpawn == GameControlScript.SPAWN_NPC.Boss;
+        print(bossTime);
+        if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval && !bossTime)
         {
             obstacle = gameControl.GetNpcGameObjectToSpawn();
             laneArray = gameControl.GetLaneArray();
@@ -57,10 +60,13 @@ public class ObstacleSpawner : MonoBehaviour
             {
                 Spawn();
             }
-            
-
+            bossSpawned = false;
             timeSinceLastSpawn = Time.timeSinceLevelLoad;
-            
+        }
+        else if (bossTime && !bossSpawned)
+        {
+            PrepareBoss();
+            StartCoroutine(SpawnBoss());
         }
     }
 
@@ -69,6 +75,19 @@ public class ObstacleSpawner : MonoBehaviour
         GameObject newObstacle = Instantiate(obstacle, new Vector3(laneArray[Random.Range(0, laneArray.Length)], transform.position.y, transform.position.z), Quaternion.identity);
         newObstacle.transform.parent = gameObject.transform;
         spawnInterval = Random.Range(spawnMin, spawnMax);
+    }
+
+    void PrepareBoss()
+    {
+        bossSpawned = true;
+        obstacle = gameControl.GetNpcGameObjectToSpawn();
+        laneArray = gameControl.GetLaneArray();
+    }
+
+    private IEnumerator SpawnBoss()
+    {
+        yield return new WaitForSeconds(2.0f);
+        Spawn();
     }
 
     void RoadBlockSpawn()

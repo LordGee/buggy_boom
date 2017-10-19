@@ -36,9 +36,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4233066133031998}
-  - component: {fileID: 114394419236213234}
   - component: {fileID: 54411004638642256}
   - component: {fileID: 65015744252649274}
+  - component: {fileID: 114724226091158856}
   m_Layer: 0
   m_Name: BuggyPlayerSport
   m_TagString: Player
@@ -147,8 +147,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1304268138657870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.046108723, y: 0.5, z: 11.814934}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4914038306971502}
   - {fileID: 4814869336456266}
@@ -415,7 +415,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!65 &65015744252649274
 BoxCollider:
@@ -428,8 +428,8 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.6, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114394419236213234
+  m_Center: {x: 0, y: 0.1, z: 0.5}
+--- !u!114 &114724226091158856
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -437,12 +437,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1304268138657870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41992251aa3bcbe4d9178e4c4f191bbd, type: 3}
+  m_Script: {fileID: 11500000, guid: a9602dcbc0930c64baf77d892f973a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buggySpeed: 10
-  buggySpeedRot: 50
-  projectile: {fileID: 1726404575796580, guid: cb6bfee3e8fa97e4f8a6b70c8c725957, type: 2}
-  projectileRate: 0.1
-  projectileLife: 1.5
-  detectorDistance: 30
+  DeathParticleEffect: {fileID: 1252646203410938, guid: ea9f27d832a4e3a439e4044768e6c5f7,
+    type: 2}
+  projectile: {fileID: 1276210249260546, guid: 5166c3d4c0d9f9d498dd69a92eab1cf6, type: 2}
