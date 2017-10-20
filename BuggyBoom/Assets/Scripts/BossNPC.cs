@@ -5,18 +5,21 @@ using UnityEngine;
 public class BossNPC : MonoBehaviour {
 
     //Public Variables
-
-    [Tooltip("Gameobject instantiated and provides effects when the object collides with the player")]
+    [Tooltip("Gameobject it include upon destroy")]
     public GameObject DeathParticleEffect;
+    [Tooltip("Projectile that the boss shoots")]
+    public GameObject projectile;
 
     // Private Variables
     private GameControlScript gameControl;
     private float npcHealth;
     private float npcDamage;
     private float npcSpeed;
-    private bool direction = true;
 
-    public GameObject projectile;
+    private float actDeltaSpeed;
+    private bool moveType;
+    private bool direction;
+    
     private float shootTimer;
     private float shootFreq = 1f;
     private float projectileLife = 4f;
@@ -27,52 +30,76 @@ public class BossNPC : MonoBehaviour {
         npcHealth = gameControl.GetNpcHealth();
         npcDamage = gameControl.GetNpcDamage();
         npcSpeed = gameControl.GetNpcSpeed();
-        // transform.rotation.y.Equals(90f);
+        direction = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float speed = npcSpeed * Time.deltaTime;
-        bool move = false;
-        if (transform.position.z > 3f)
+        actDeltaSpeed = npcSpeed * Time.deltaTime;
+        moveType = false;
+        MoveForward();
+        if (moveType)
         {
-            transform.Translate(0f, 0f, -speed);
-            move = false;
-        }
-        else
-        {
-            move = true;
-        }
-        if (move)
-        {
-            if (direction)
-            {
-                transform.Translate(speed, 0f, 0f);
-                if (transform.position.x > 4.0f)
-                {
-                    direction = false;
-                }
-            }
-            else
-            {
-                transform.Translate(-speed, 0f, 0f);
-                if (transform.position.x < -4)
-                {
-                    direction = !direction;
-                }
-            }
+            MoveSideToSide();
         }
         if (Time.timeSinceLevelLoad - shootTimer > shootFreq)
         {
-            GameObject proj = Instantiate(projectile,
-                new Vector3(transform.position.x, transform.position.y, transform.position.z - 1),
-                Quaternion.identity);
-            proj.GetComponent<ProjectileSpawnEnemy>().projectileDamage = npcDamage;
-            Destroy(proj, projectileLife);
+            ShootProjectile();
             shootTimer = Time.timeSinceLevelLoad;
             shootFreq = Random.Range(0f, 1f);
         }
+    }
+
+    /* Move boss forward torward player
+     * At set position change move type to false
+     * alloing for a side to side movement to take effect
+     * This will continue to be check in case the boss is 
+     * pushed back, will then be re-adjusted */
+    void MoveForward()
+    {
+        if (transform.position.z > 3f)
+        {
+            transform.Translate(0f, 0f, -actDeltaSpeed);
+            moveType = false;
+        }
+        else
+        {
+            moveType = true;
+        }
+    }
+
+    /* Move the boss the right side of the screen, once
+     * a set amount of distance has been reached will reverse
+     * the direction */
+    void MoveSideToSide()
+    {
+        if (direction)
+        {
+            transform.Translate(actDeltaSpeed, 0f, 0f);
+            if (transform.position.x > 4.0f)
+            {
+                direction = false;
+            }
+        }
+        else
+        {
+            transform.Translate(-actDeltaSpeed, 0f, 0f);
+            if (transform.position.x < -4)
+            {
+                direction = !direction;
+            }
+        }
+    }
+
+    /* Projectile is instantiated and the unique damage for the object
+     * is passed to the projectile script */
+    void ShootProjectile()
+    {
+        GameObject proj = Instantiate(projectile,
+                new Vector3(transform.position.x, transform.position.y, transform.position.z - 1),
+                Quaternion.identity);
+        proj.GetComponent<ProjectileSpawnEnemy>().projectileDamage = npcDamage;
     }
 
     void OnCollisionEnter(Collision col)

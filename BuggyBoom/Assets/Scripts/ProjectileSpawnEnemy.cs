@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class ProjectileSpawnEnemy : MonoBehaviour {
 
+    [Tooltip("Set the speed of the projectile")]
     public float projectileSpeed = 24f;
+    [Tooltip("Value is SET by another Script")][SerializeField]
+    public float projectileDamage;
+
     private GameObject player;
     private Vector3 originalPlayerPosision;
-    public float projectileDamage = 10f;
+    private float projectileLife = 5f;
 
     // Use this for initialization
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         originalPlayerPosision = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 1);
+        Destroy(gameObject, projectileLife);
     }
 
     // Update is called once per frame

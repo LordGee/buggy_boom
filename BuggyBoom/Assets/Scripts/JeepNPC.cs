@@ -37,13 +37,18 @@ public class JeepNPC : MonoBehaviour {
     {
         if (shooter && Time.timeSinceLevelLoad - shootTimer > shootFreq)
         {
-            GameObject proj = Instantiate(projectile, 
-                new Vector3(transform.position.x, transform.position.y, transform.position.z - 1),
-                Quaternion.identity);
-            proj.GetComponent<ProjectileSpawnEnemy>().projectileDamage = npcDamage;
-            Destroy(proj, projectileLife);
+            ShootProjectile();
             shootTimer = Time.timeSinceLevelLoad;
         }
+    }
+
+    void ShootProjectile()
+    {
+        GameObject proj = Instantiate(projectile,
+                new Vector3(transform.position.x, transform.position.y, transform.position.z - 1),
+                Quaternion.identity);
+        proj.GetComponent<ProjectileSpawnEnemy>().projectileDamage = npcDamage;
+        Destroy(proj, projectileLife);
     }
 
     public int[] GetLaneArray()

@@ -47,7 +47,6 @@ public class ObstacleSpawner : MonoBehaviour
             will be child of the parent spawner and the time counter since the last spawn 
             is then reset   */
         bool bossTime = gameControl.currentSpawn == GameControlScript.SPAWN_NPC.Boss;
-        print(bossTime);
         if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval && !bossTime)
         {
             obstacle = gameControl.GetNpcGameObjectToSpawn();
