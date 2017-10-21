@@ -9,9 +9,13 @@ public class BossNPC : MonoBehaviour {
     public GameObject DeathParticleEffect;
     [Tooltip("Projectile that the boss shoots")]
     public GameObject projectile;
+    [Tooltip("Small explosion SFX")]
+    public AudioClip clip;
 
     // Private Variables
     private GameControlScript gameControl;
+
+    private new AudioSource audio;
     private float npcHealth;
     private float npcDamage;
     private float npcSpeed;
@@ -32,6 +36,7 @@ public class BossNPC : MonoBehaviour {
         npcSpeed = gameControl.GetNpcSpeed();
         npcPoints = gameControl.GetNpcPoints();
         direction = true;
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -47,6 +52,7 @@ public class BossNPC : MonoBehaviour {
         if (Time.timeSinceLevelLoad - shootTimer > shootFreq)
         {
             ShootProjectile();
+            audio.Play();
             shootTimer = Time.timeSinceLevelLoad;
             shootFreq = Random.Range(0f, 1f);
         }
@@ -108,6 +114,7 @@ public class BossNPC : MonoBehaviour {
         if (col.gameObject.tag == "Projectile")
         {
             Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
+            gameControl.PlayAudioClip(clip);
             gameControl.DamageNPC(this.gameObject, npcPoints, gameControl.GetPlayerDamage(), ref npcHealth);
             Destroy(col.transform.parent.gameObject);
         }

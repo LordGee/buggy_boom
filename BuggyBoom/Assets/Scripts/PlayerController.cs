@@ -10,10 +10,12 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Attach Projectile object for the player")] public GameObject projectile;
     [Tooltip("Explode effect when damaged")] public GameObject explode;
     [Tooltip("Auto fire (On / Off)")] public bool autoFire;
+    public AudioClip laser;
 
     // Private Variables
     private GameControlScript gameControl;
     private Animator anim;
+    private new AudioSource audio;
     private float StartZ;
 
     private float projectileRate = 0.1f;
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
         projectileCooldown = Time.timeSinceLevelLoad;
         anim = GetComponent<Animator>();
         gameControl = FindObjectOfType<GameControlScript>();
+        audio = GetComponent<AudioSource>();
     }
 
 	// Update is called once per frame
@@ -135,6 +138,9 @@ public class PlayerController : MonoBehaviour
             GameObject newProjectile = Instantiate(projectile, pos, Quaternion.identity);
             Destroy(newProjectile, projectileLife);
             projectileCooldown = Time.timeSinceLevelLoad;
+            audio.clip = laser;
+            audio.pitch = Random.Range(0.7f, 1.2f);
+            audio.Play();
             return true;
         }
         return false;

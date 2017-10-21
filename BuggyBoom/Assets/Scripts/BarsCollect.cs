@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BarsCollect : MonoBehaviour {
 
+    // Public Variables
+    public AudioClip clip;
+
     // Private Variables
     private float speed = 8f;
     private int pointValue = 100;
@@ -24,6 +27,7 @@ public class BarsCollect : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         gameControl.AddPoints(pointValue);
+        gameControl.PlayAudioClip(clip);
         Destroy(gameObject);
     }
 }

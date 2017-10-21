@@ -33,6 +33,7 @@ public class GameControlScript : MonoBehaviour
     public GAME_STATE currentyGameState;
     public GameObject[] collectables;
     public GameObject explodeEffect;
+    public AudioClip smallExplosion, bigExplosion;
 
     // Player Specific Private Variables
     private float playerScore, playerMultipler, playerPoints;
@@ -48,6 +49,7 @@ public class GameControlScript : MonoBehaviour
     private float progressionTimer, progressionCountdown, progressionIncrementer;
     private const float maxSpeed = 30f;
     private Text scoreDisplay, multiDisplay, healthDisplay;
+    private new AudioSource[] audio;
 
 	// Use this for initialization
 	void Start ()
@@ -60,11 +62,12 @@ public class GameControlScript : MonoBehaviour
 	    progressionIncrementer = 0.1f;
 	    progressionCountdown = 10f;
 	    bossTimer = Time.timeSinceLevelLoad;
-	    bossCountdown = 20f;
+	    bossCountdown = 120f;
 	    currentSpawn = SPAWN_NPC.Jeep;
         scoreDisplay = GameObject.Find("Text_ScoreDisplay").GetComponent<Text>();
 	    multiDisplay = GameObject.Find("Text_MultiplerDisplay").GetComponent<Text>();
 	    healthDisplay = GameObject.Find("Text_HealthDisplay").GetComponent<Text>();
+	    audio = GetComponents<AudioSource>();
         UpdateHUD();
     }
 	
@@ -174,11 +177,15 @@ public class GameControlScript : MonoBehaviour
                 LevelUp();
                 progressionTimer = Time.timeSinceLevelLoad;
                 currentSpawn = SPAWN_NPC.Jeep;
+                audio[0].clip = bigExplosion;
             }
             else
             {
                 SpawnCollectable(_obj.transform.position);
+                audio[0].clip = smallExplosion;
             }
+            audio[0].transform.position = _obj.transform.position;
+            audio[0].Play();
             NpcDeathEffect(_obj.transform.position);
             Destroy(_obj);
             UpdateHUD();
@@ -277,6 +284,13 @@ public class GameControlScript : MonoBehaviour
     private void ProgressionCalc(ref float _value)
     {
         _value += progressionIncrementer;
+    }
+
+    /* Apply an audio clip to be played */
+    public void PlayAudioClip(AudioClip _clip)
+    {
+        audio[1].clip = _clip;
+        audio[1].Play();
     }
 
     /* Getters */

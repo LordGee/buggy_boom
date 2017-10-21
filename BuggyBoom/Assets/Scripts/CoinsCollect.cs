@@ -5,11 +5,14 @@ using UnityEngine;
 public class CoinsCollect : MonoBehaviour
 {
 
+    // Public Variables
+    public AudioClip clip;
+
     // Private Variables
     private float speed = 8f;
     private int pointValue = 20;
     private GameControlScript gameControl;
-
+   
     // Use this for initialization
     void Start ()
     {
@@ -24,6 +27,7 @@ public class CoinsCollect : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         gameControl.AddPoints(pointValue);
+        gameControl.PlayAudioClip(clip);
         Destroy(gameObject);
     }
 }

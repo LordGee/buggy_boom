@@ -12,6 +12,7 @@ public class JeepNPC : MonoBehaviour {
 
     // Private Variables
     private GameControlScript gameControl;
+    private new AudioSource audio;
     private int[] roadLaneArray = { -3, -1, 1, 3 };
     private bool shooter;
     private float shootTimer = 0f, shootFreq = 1.5f, minShoot = 0.5f, maxShoot = 2.5f;
@@ -39,6 +40,7 @@ public class JeepNPC : MonoBehaviour {
         {
             shooter = true;
             obj.GetComponent<Renderer>().material = materials[1];
+            audio = GetComponent<AudioSource>();
             shootTimer = Time.timeSinceLevelLoad;
         }
         else
@@ -53,6 +55,7 @@ public class JeepNPC : MonoBehaviour {
         if (shooter && Time.timeSinceLevelLoad - shootTimer > shootFreq)
         {
             ShootProjectile();
+            audio.Play();
             shootTimer = Time.timeSinceLevelLoad;
             shootFreq = Random.Range(minShoot, maxShoot);
         }

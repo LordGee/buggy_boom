@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RepairCollect : MonoBehaviour {
-    
+
+    // Public Variables
+    public AudioClip clip;
+
     // Private Variables
     private GameControlScript gameControl;
     private float speed = 8f;
@@ -24,6 +27,7 @@ public class RepairCollect : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         gameControl.RepairBuggy(repairValue);
+        gameControl.PlayAudioClip(clip);
         Destroy(gameObject);
     }
 
