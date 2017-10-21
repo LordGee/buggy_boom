@@ -5,16 +5,13 @@ using UnityEngine;
 public class WallSpawning : MonoBehaviour
 {
     // Public Variables
-    [Tooltip("Attach Prefab of cube with appropriate Rigidbody and COnstraints")]
+    [Tooltip("Attach Prefab of cube with appropriate Rigidbody and Constraints")]
     public GameObject wall;
-    [Tooltip("Define how often a Wall is Spawned")]
-    public float spawnInterval = 0.5f;
-    [Tooltip("Define time until the first object is spawned")]
-    public float timeBeforeFirstSpawn = 2f;
-
+    
     // Private Variables
+    private float timeBeforeFirstSpawn = 2f;
+    private float spawnInterval = 0.5f;
     private float timeSinceLastSpawn = 0f;
-
     private bool startSpawning = false;
     
 

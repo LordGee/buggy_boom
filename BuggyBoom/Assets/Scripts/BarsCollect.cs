@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BarsCollect : MonoBehaviour {
 
+    // Private Variables
     private float speed = 8f;
-    private int pointValue = 1000;
+    private int pointValue = 100;
     private GameControlScript gameControl;
 
     // Use this for initialization

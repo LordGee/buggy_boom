@@ -490,7 +490,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 82
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &65318378014675822
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -535,7 +535,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 6e33bccef56fe40678fb5405109e495b, type: 2}
   - {fileID: 2100000, guid: 18b77ca565d1a463a97ad28cf586cb1c, type: 2}
   projectile: {fileID: 1276210249260546, guid: 5166c3d4c0d9f9d498dd69a92eab1cf6, type: 2}
-  projectileLife: 1.75
 --- !u!114 &114311906595663962
 MonoBehaviour:
   m_ObjectHideFlags: 1

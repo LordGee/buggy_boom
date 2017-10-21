@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ProjectileSpawnEnemy : MonoBehaviour {
 
+    // Public Variables
     [Tooltip("Set the speed of the projectile")]
     public float projectileSpeed = 24f;
-    [Tooltip("Value is SET by another Script")][SerializeField]
+    [Tooltip("Value is SET by another Script")]
     public float projectileDamage;
 
+    // Private Variables
     private GameObject player;
     private Vector3 originalPlayerPosision;
     private float projectileLife = 5f;

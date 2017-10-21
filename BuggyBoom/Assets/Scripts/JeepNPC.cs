@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class JeepNPC : MonoBehaviour {
 
+    // Public Variables
+    [Tooltip("Two Materials to define type of jeep")]
     public Material[] materials;
+    [Tooltip("Projectile that the jeep shoots")]
     public GameObject projectile;
+
+    // Private Variables
     private GameControlScript gameControl;
     private int[] roadLaneArray = { -3, -1, 1, 3 };
-    private bool shooter = false;
-    private float shootTimer;
-    private float shootFreq = 3f;
+    private bool shooter;
+    private float shootTimer = 0f, shootFreq = 1.5f, minShoot = 0.5f, maxShoot = 2.5f;
     private float projectileLife = 4f;
-    private float npcDamage;
+    private float npcDamage, npcHealth;
+    
 
 
     // Use this for initialization
@@ -20,8 +25,17 @@ public class JeepNPC : MonoBehaviour {
     {
         gameControl = FindObjectOfType<GameControlScript>();
         npcDamage = gameControl.GetNpcDamage();
+        npcHealth = gameControl.GetNpcHealth();
+        IsShooterAndMaterial();
+        DestroyGlitchedObject();
+    }
+
+    /* Randomly chooses if next spawn Jeep is a shooter this then 
+     * determines which material to provide. */
+    void IsShooterAndMaterial()
+    {
         GameObject obj = transform.Find("JEEP_BODY").gameObject;
-        if (Random.Range(0,3) == 1)
+        if (Random.Range(0, 3) == 1)
         {
             shooter = true;
             obj.GetComponent<Renderer>().material = materials[1];
@@ -29,6 +43,7 @@ public class JeepNPC : MonoBehaviour {
         }
         else
         {
+            shooter = false;
             obj.GetComponent<Renderer>().material = materials[0];
         }
     }
@@ -39,9 +54,12 @@ public class JeepNPC : MonoBehaviour {
         {
             ShootProjectile();
             shootTimer = Time.timeSinceLevelLoad;
+            shootFreq = Random.Range(minShoot, maxShoot);
         }
     }
 
+    /* Projectile is instantiated and the unique damage for the object
+     * is passed to the projectile script */
     void ShootProjectile()
     {
         GameObject proj = Instantiate(projectile,
@@ -54,5 +72,18 @@ public class JeepNPC : MonoBehaviour {
     public int[] GetLaneArray()
     {
         return roadLaneArray;
+    }
+
+    /* After a boss and before road blocks a glitched Jeep is spawned with is 
+     * super doper powerful, it has the same attributes as a road block so if 
+     * crashed into or hits with projectile will instantly kill the player. 
+     * This is a tempory fix. */
+    private void DestroyGlitchedObject()
+    {
+        if (npcHealth > 10000)
+        {
+            print(gameObject);
+            Destroy(gameObject);
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class RoadBlock : MonoBehaviour
 {
 
+    // Private Variables
     private float originalX;
 
 	// Use this for initialization

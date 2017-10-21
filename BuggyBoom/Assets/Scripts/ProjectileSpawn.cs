@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ProjectileSpawn : MonoBehaviour
 {
-
+    // Public Variables
+    [Tooltip("Speed at which the projectile travels")]
     public float projectileSpeed = 20f;
 
+    // Private Variables
     private GameObject buggyRotation;
     private Vector3 originalForward;
 
@@ -21,8 +23,5 @@ public class ProjectileSpawn : MonoBehaviour
     void Update()
     {
         transform.Translate(originalForward * projectileSpeed * Time.deltaTime);
-        // transform.Translate(0f,0f, projectileSpeed * Time.deltaTime);
-        // transform.Rotate(0f, buggyRotation.transform.rotation.y * Time.deltaTime, 0f);
-        // print(buggyRotation.transform.eulerAngles.y);
     }
 }

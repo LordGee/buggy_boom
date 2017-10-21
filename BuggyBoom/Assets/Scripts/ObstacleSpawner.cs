@@ -1,14 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-
-    // TODO: Make the spawn interval dynamic, interval gradullay decreases.
-    // TODO: Add additional obstacles, such as barriers and pedestrians.
-    // TODO: Add boss vehcle to spawn after set time of play.
-    // TODO: Add several enum states to define appropriate obstacles and duration.
 
     // Public Variables
     [Tooltip("Define how often an obstacle is Spawned (Min / Max)")]
@@ -25,9 +21,9 @@ public class ObstacleSpawner : MonoBehaviour
     private int[] laneArray;
     private GameObject obstacle;
     private GameControlScript gameControl;
-    private bool bossSpawned;
+    private bool bossSpawned, bossTime, bossExists;
 
-    private int roadBlockCount = 3;
+    private int roadBlockCount, blockMin = 2, blockMax = 6;
 
     void Start()
     {
@@ -42,15 +38,18 @@ public class ObstacleSpawner : MonoBehaviour
         {
             startSpawning = true;
         }
+        
+        // Perform checks to check if its time to spawn a boss or if a boss already exists
+        bossTime = gameControl.currentSpawn == GameControlScript.SPAWN_NPC.Boss;
+        bossExists = GameObject.FindWithTag("NPCBoss");
+
         /*  once the spawn process has starteded a new a new car object will be spawned at
             specific intervals within the bounds af a random lane on the grid. The object 
             will be child of the parent spawner and the time counter since the last spawn 
             is then reset   */
-        bool bossTime = gameControl.currentSpawn == GameControlScript.SPAWN_NPC.Boss;
-        if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval && !bossTime)
+        if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval && !bossTime && !bossExists)
         {
-            obstacle = gameControl.GetNpcGameObjectToSpawn();
-            laneArray = gameControl.GetLaneArray();
+            PrepareObstacleToSpawn(false);
             if (obstacle.tag == "RoadBlock")
             {
                 RoadBlockSpawn();
@@ -59,16 +58,17 @@ public class ObstacleSpawner : MonoBehaviour
             {
                 Spawn();
             }
-            bossSpawned = false;
             timeSinceLastSpawn = Time.timeSinceLevelLoad;
         }
-        else if (bossTime && !bossSpawned)
+        else if (bossTime && !bossSpawned && !bossExists)
         {
-            PrepareBoss();
+            PrepareObstacleToSpawn(true);
             StartCoroutine(SpawnBoss());
         }
     }
 
+    /* Spawn a new game object within a random lane within the game grid as a child of the 
+     * spawner game object the next spawn interval will then be randomly defined. */
     void Spawn()
     {
         GameObject newObstacle = Instantiate(obstacle, new Vector3(laneArray[Random.Range(0, laneArray.Length)], transform.position.y, transform.position.z), Quaternion.identity);
@@ -76,21 +76,28 @@ public class ObstacleSpawner : MonoBehaviour
         spawnInterval = Random.Range(spawnMin, spawnMax);
     }
 
-    void PrepareBoss()
+    /* Prepares the next spawn conditions by getting the next spawn object and defining 
+     * which lanes are allowed. */
+    void PrepareObstacleToSpawn(bool _boss)
     {
-        bossSpawned = true;
+        bossSpawned = _boss;
         obstacle = gameControl.GetNpcGameObjectToSpawn();
         laneArray = gameControl.GetLaneArray();
     }
 
+    /* Having a short delay before the boss spawns improves the experience slightly */
     private IEnumerator SpawnBoss()
     {
         yield return new WaitForSeconds(2.0f);
         Spawn();
     }
 
+    /* Spawns a random amount of road blocks in a row between 2 and 5 as various positions 
+     * then spawns the objects in their respective positions.
+     * TODO: This needs refactoring */
     void RoadBlockSpawn()
     {
+        roadBlockCount = Random.Range(blockMin, blockMax);
         int[] tempLanes = new int[roadBlockCount];
         bool test = true;
         for (int i = 0; i < tempLanes.Length; i++)

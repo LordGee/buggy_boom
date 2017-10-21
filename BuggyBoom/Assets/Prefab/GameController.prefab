@@ -58,16 +58,22 @@ MonoBehaviour:
   - {fileID: 1475219035201014, guid: 4cb96b637fe7c674c807eeb60f292ccd, type: 2}
   - {fileID: 1304268138657870, guid: 81934db83b196c8488ddfee8c4573edd, type: 2}
   npcJeepHealth: 10
-  npcJeepDamage: 10
+  npcJeepDamage: 2
   npcJeepSpeed: 10
+  npcJeepPoints: 100
   npcBlockHealth: 999999
   npcBlockDamage: 999999
   npcBlockSpeed: 12
+  npcBlockPoints: 0
   npcMonsterHealth: 1000
-  npcMonsterDamage: 2
-  npcMonsterSpeed: 4
+  npcMonsterDamage: 5
+  npcMonsterSpeed: 5
+  npcMonsterPoints: 1000
   currentSpawn: 0
+  currentyGameState: 0
   collectables:
   - {fileID: 1097053209613298, guid: b8b6b999f3e272f4297889f6ec3d4548, type: 2}
   - {fileID: 1772467043559160, guid: ceaea03e45bfcb941981e7fa3b962f59, type: 2}
   - {fileID: 1881551090441726, guid: 8aa47bab50d4c5945b7eeba0e352c7cf, type: 2}
+  explodeEffect: {fileID: 1252646203410938, guid: ea9f27d832a4e3a439e4044768e6c5f7,
+    type: 2}

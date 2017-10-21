@@ -14,6 +14,7 @@ public class NPCObstacle : MonoBehaviour {
     private float npcHealth;
     private float npcDamage;
     private float npcSpeed;
+    private float npcPoints;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class NPCObstacle : MonoBehaviour {
         npcHealth = gameControl.GetNpcHealth();
         npcDamage = gameControl.GetNpcDamage();
         npcSpeed = gameControl.GetNpcSpeed();
+        npcPoints = gameControl.GetNpcPoints();
     }
 
     // Update is called once per frame
@@ -40,11 +42,7 @@ public class NPCObstacle : MonoBehaviour {
         }
         else if (col.gameObject.tag == "Projectile")
         {
-            gameControl.DamageNPC(this.gameObject, gameControl.GetPlayerPoints(), gameControl.GetPlayerDamage(), ref npcHealth);
-            if (npcHealth <= 0)
-            {
-                NpcDeathEffect();
-            }
+            gameControl.DamageNPC(this.gameObject, npcPoints, gameControl.GetPlayerDamage(), ref npcHealth);
             Destroy(col.transform.parent.gameObject);
         }
     }

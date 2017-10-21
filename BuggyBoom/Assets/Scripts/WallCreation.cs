@@ -5,12 +5,10 @@ using UnityEngine;
 public class WallCreation : MonoBehaviour
 {
     //Public Variables
-    public float wallCurrentSpeed = 10f;
-
     public GameObject explosion;
-    
 
     // Private Variables
+    private float wallCurrentSpeed = 10f;
     private float scaleX, scaleY, scaleZ;
     private Color col;
 
@@ -28,6 +26,7 @@ public class WallCreation : MonoBehaviour
 		transform.Translate(0f, 0f, -(wallCurrentSpeed * Time.deltaTime));
 	}
 
+    /* Prepares a random size and shape for the next spawned building */
     void GetRandomSize()
     {
         scaleX = Random.Range(2f, 8f);

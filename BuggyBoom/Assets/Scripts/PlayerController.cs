@@ -6,21 +6,23 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Public Variables
-    [Tooltip("The spped at which the Buggy will translate when input is detected")]
-    public float buggySpeed = 10f;
-    public float buggySpeedRot = 50f;
-    public GameObject projectile;
-    private float projectileRate = 0.1f;
-    private float projectileLife = 1.75f;
-    private float detectorDistance = 30f;
+    [Tooltip("Speed the Buggy will translate")] public float buggySpeed = 10f;
+    [Tooltip("Attach Projectile object for the player")] public GameObject projectile;
+    [Tooltip("Explode effect when damaged")] public GameObject explode;
+    [Tooltip("Auto fire (On / Off)")] public bool autoFire;
 
     // Private Variables
-    private float StartZ;
-    private float projectileCooldown;
-    private float projectileCounter = 0;
-    private RaycastHit detector;
-    private Animator anim;
     private GameControlScript gameControl;
+    private Animator anim;
+    private float StartZ;
+
+    private float projectileRate = 0.1f;
+    private float projectileCooldown;
+    private float projectileLife = 1.75f;
+
+    private RaycastHit detector;
+    private float detectorDistance = 30f;
+    private float projectileCounter = 0;
 
     void Start()
     {
@@ -33,59 +35,81 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    transform.Translate(GetTranslatedPosition(buggySpeed), 0f, 0f);
-	    if (Input.GetAxis("Horizontal") !=0)
+	    CheckHorizontalMovement();
+	    if (autoFire)
 	    {
-	        //transform.Rotate(0f, GetTranslatedPosition(buggySpeedRot), 0f);
-	        if (Input.GetAxis("Horizontal") > 0)
-	        {
-	            anim.SetBool("TurnRight", true);
-	            anim.SetBool("TurnLeft", false);
-            }
-            else if (Input.GetAxis("Horizontal") < 0)
-	        {
-	            anim.SetBool("TurnRight", false);
-	            anim.SetBool("TurnLeft", true);
-	        }
+	        CheckAutoFire();
         }
-	    else
-	    {
-            //transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
-	        anim.SetBool("TurnRight", false);
-	        anim.SetBool("TurnLeft", false);
-        }
-
-	    Vector3 fwd = transform.TransformDirection(Vector3.forward);
-        if (Physics.SphereCast(transform.position, transform.localScale.y / 2, fwd, out detector, detectorDistance))
-	    {
-	        if (detector.transform.tag == "NPCJeep" || detector.transform.tag == "Projectile")
-	        {
-	            if (detector.transform.tag == "Projectile")
-	            {
-	                if (projectileCounter <= 5)
-	                {
-	                    if (FireProjectile())
-	                    {
-	                        projectileCounter++;
-	                    }
-	                }
-	            }
-	            else
-	            {
-	                FireProjectile();
-	                projectileCounter = 0;
-	            }
-                FireProjectile();
-	        }
-        }
-        if (Input.GetAxis("Jump") != 0 || Input.GetAxis("Fire1") != 0)
-	    {
-	        FireProjectile();
-	    }
-	    
+	    CheckManualFire();
         CheckPositioningConstraints();
         
 	}
+
+    /* Any horizontal inputs are translated to the new position of the player. 
+     * Checks are made for the direction that the player is moving and applys 
+     * the correct animation. Rotation was originally done through the code. */
+    private void CheckHorizontalMovement()
+    {
+        transform.Translate(Input.GetAxis("Horizontal") * buggySpeed * Time.deltaTime, 0f, 0f);
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            // transform.Rotate(0f, GetTranslatedPosition(buggySpeedRot), 0f);
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                anim.SetBool("TurnRight", true);
+                anim.SetBool("TurnLeft", false);
+            }
+            else if (Input.GetAxis("Horizontal") < 0)
+            {
+                anim.SetBool("TurnRight", false);
+                anim.SetBool("TurnLeft", true);
+            }
+        }
+        else
+        {
+            // transform.Rotate(0f, GetTranslatedPosition(transform.rotation.y * -1, buggySpeedRot * 20f), 0f);
+            anim.SetBool("TurnRight", false);
+            anim.SetBool("TurnLeft", false);
+        }
+    }
+
+    /* If option is selected autofire will use a Sphere Cast to detect enemies 
+     * ahead of the players facing direction. */
+    private void CheckAutoFire()
+    {
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        if (Physics.SphereCast(transform.position, transform.localScale.y / 2, fwd, out detector, detectorDistance))
+        {
+            if (detector.transform.tag == "NPCJeep" || detector.transform.tag == "Projectile")
+            {
+                if (detector.transform.tag == "Projectile")
+                {
+                    if (projectileCounter <= 5)
+                    {
+                        if (FireProjectile())
+                        {
+                            projectileCounter++;
+                        }
+                    }
+                }
+                else
+                {
+                    FireProjectile();
+                    projectileCounter = 0;
+                }
+                FireProjectile();
+            }
+        }
+    }
+
+    /* Checks for fire inputs, if true triggers the Fire Projectile function */
+    private void CheckManualFire()
+    {
+        if (Input.GetAxis("Jump") != 0 || Input.GetAxis("Fire1") != 0)
+        {
+            FireProjectile();
+        }
+    }
 
     void OnCollisionEnter(Collision col)
     {
@@ -93,11 +117,16 @@ public class PlayerController : MonoBehaviour
         {
             float dmg = col.gameObject.GetComponentInParent<ProjectileSpawnEnemy>().GetProjectileDamage();
             gameControl.DamagePlayer(dmg);
-            GameObject parent = col.transform.parent.gameObject;
-            Destroy(parent);
+            GameObject effect = Instantiate(explode, col.transform.position, Quaternion.identity);
+            Destroy(effect, 3f);
+            Destroy(col.transform.parent.gameObject);
         }
     }
 
+    /* Spawns an new projectile if sufficient time has elapsed since the last projectile, this
+     * game object has a specified life span that will be destroyed after a set time the projectile 
+     * cooldown period resets. This function returns true if successfull or false if not, this is 
+     * soley for the Auto Fire function. */
     private bool FireProjectile()
     {
         if (Time.timeSinceLevelLoad - projectileCooldown > projectileRate)
@@ -111,16 +140,8 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    private float GetTranslatedPosition(float _speed)
-    {
-        return Input.GetAxis("Horizontal") * _speed * Time.deltaTime;
-    }
-
-    private float GetTranslatedPosition(float _speed, float _move)
-    {
-        return _move * _speed * Time.deltaTime;
-    }
-
+    /* Checks the position of the player to ensure that the player buggy is always within the 
+     * confinds of the player space */
     private void CheckPositioningConstraints()
     {
         if (transform.position.x > 5f)
@@ -136,14 +157,15 @@ public class PlayerController : MonoBehaviour
                 transform.position.z);
         }
 
-        if (transform.position.z < StartZ)
+        if (transform.position.z != StartZ)
         {
             transform.position = new Vector3(
                 transform.position.x,
                 transform.position.y,
                 StartZ);
         }
-
+        // Folling is not longer needed as the rotation is now managed by the animator
+        /*
         if (transform.eulerAngles.y > 20f && transform.eulerAngles.y < 180f) // I was expecting the rotation to be represented in positive and negative (as in the inspector) but its not
         {
             transform.eulerAngles = new Vector3(0f, 20f, 0f);
@@ -152,5 +174,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0f, -20f, 0f);
         }
+        */
     }
 }

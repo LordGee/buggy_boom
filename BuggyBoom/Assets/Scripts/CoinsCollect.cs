@@ -5,8 +5,9 @@ using UnityEngine;
 public class CoinsCollect : MonoBehaviour
 {
 
-    public float speed = 8f;
-    public int pointValue = 50;
+    // Private Variables
+    private float speed = 8f;
+    private int pointValue = 20;
     private GameControlScript gameControl;
 
     // Use this for initialization

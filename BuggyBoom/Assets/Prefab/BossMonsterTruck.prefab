@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 114354520311090410}
   m_Layer: 0
   m_Name: BossMonsterTruck
-  m_TagString: NPCJeep
+  m_TagString: NPCBoss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -413,3 +413,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeathParticleEffect: {fileID: 1252646203410938, guid: ea9f27d832a4e3a439e4044768e6c5f7,
     type: 2}
+  projectile: {fileID: 0}

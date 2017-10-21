@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RepairCollect : MonoBehaviour {
-
-    public float speed = 8f;
-    public int repairValue = 20;
+    
+    // Private Variables
     private GameControlScript gameControl;
+    private float speed = 8f;
+    private int repairValue = 20;
 
     // Use this for initialization
     void Start()

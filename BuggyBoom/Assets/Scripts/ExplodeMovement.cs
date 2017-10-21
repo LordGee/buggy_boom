@@ -5,15 +5,12 @@ using UnityEngine;
 public class ExplodeMovement : MonoBehaviour
 {
 
-    public float movementSpeed = 5f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Private Variable
+    private float movementSpeed = 5f;
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	    transform.Translate(0f, 0f, -(movementSpeed * Time.deltaTime));
     }
 }

@@ -1485,7 +1485,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1041850856695992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.836, y: 0, z: 1.25}
+  m_LocalPosition: {x: -0.836, y: 0.25, z: 1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4646516518537978}
@@ -1890,7 +1890,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1052714661360402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.836, y: 0, z: -1}
+  m_LocalPosition: {x: 0.836, y: 0.25, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4646516518537978}
@@ -2087,7 +2087,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534322415166644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.836, y: 0, z: -1}
+  m_LocalPosition: {x: -0.836, y: 0.25, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4646516518537978}
@@ -2441,7 +2441,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1678139893817150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.836, y: 0, z: 1.25}
+  m_LocalPosition: {x: 0.836, y: 0.25, z: 1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4646516518537978}
@@ -4291,8 +4291,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2, z: 2.5}
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!95 &95732462464129134
 Animator:
   serializedVersion: 3
@@ -4694,11 +4694,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buggySpeed: 10
-  buggySpeedRot: 50
   projectile: {fileID: 1726404575796580, guid: cb6bfee3e8fa97e4f8a6b70c8c725957, type: 2}
-  projectileRate: 0.1
-  projectileLife: 1.5
-  detectorDistance: 30
+  explode: {fileID: 1252646203410938, guid: ea9f27d832a4e3a439e4044768e6c5f7, type: 2}
+  autoFire: 0
 --- !u!146 &146045352014527806
 WheelCollider:
   m_ObjectHideFlags: 1

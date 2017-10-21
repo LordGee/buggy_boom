@@ -15,6 +15,7 @@ public class BossNPC : MonoBehaviour {
     private float npcHealth;
     private float npcDamage;
     private float npcSpeed;
+    private float npcPoints;
 
     private float actDeltaSpeed;
     private bool moveType;
@@ -22,7 +23,6 @@ public class BossNPC : MonoBehaviour {
     
     private float shootTimer;
     private float shootFreq = 1f;
-    private float projectileLife = 4f;
 
     void Start()
     {
@@ -30,6 +30,7 @@ public class BossNPC : MonoBehaviour {
         npcHealth = gameControl.GetNpcHealth();
         npcDamage = gameControl.GetNpcDamage();
         npcSpeed = gameControl.GetNpcSpeed();
+        npcPoints = gameControl.GetNpcPoints();
         direction = true;
     }
 
@@ -106,18 +107,11 @@ public class BossNPC : MonoBehaviour {
     {
         if (col.gameObject.tag == "Projectile")
         {
-            gameControl.DamageNPC(this.gameObject, gameControl.GetPlayerPoints(), gameControl.GetPlayerDamage(), ref npcHealth);
-            if (npcHealth <= 0)
-            {
-                NpcDeathEffect();
-            }
+            Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
+            gameControl.DamageNPC(this.gameObject, npcPoints, gameControl.GetPlayerDamage(), ref npcHealth);
             Destroy(col.transform.parent.gameObject);
         }
     }
 
-    void NpcDeathEffect()
-    {
-        GameObject death = Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
-        Destroy(death, 3f);
-    }
+    
 }
