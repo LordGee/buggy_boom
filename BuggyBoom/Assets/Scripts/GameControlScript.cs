@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -37,7 +38,8 @@ public class GameControlScript : MonoBehaviour
 
     // Player Specific Private Variables
     private float playerScore, playerMultipler, playerPoints;
-    private bool invinsible = false;  
+    private bool invinsible = false, doThisOnce = false;
+    private PlayerController playerControl;
 
     // NPC Specific Private Variables
     private float bossTimer, bossCountdown;
@@ -68,6 +70,7 @@ public class GameControlScript : MonoBehaviour
 	    multiDisplay = GameObject.Find("Text_MultiplerDisplay").GetComponent<Text>();
 	    healthDisplay = GameObject.Find("Text_HealthDisplay").GetComponent<Text>();
 	    audio = GetComponents<AudioSource>();
+	    playerControl = FindObjectOfType<PlayerController>();
         UpdateHUD();
     }
 	
@@ -335,9 +338,68 @@ public class GameControlScript : MonoBehaviour
         // Add a pause loop here
     }
 
-    /* End of the game, when the player is destroyed */
+    /* End of the game, when the player is destroyed all objects and offsets must come to a
+     * standstill. All obstacles are destroyed, after short wait the results scene will load in. */
     void GameOver()
     {
-        Debug.LogError("You Broke the Game by DYING!");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        NpcDeathEffect(player.transform.position);
+        MaterialOffset[] materials = FindObjectsOfType<MaterialOffset>();
+        foreach (MaterialOffset mat in materials)
+        {
+            if (mat.offsetSpeed > 0)
+            {
+                mat.offsetSpeed = 0.25f;
+            }
+            
+        }
+        WallCreation[] walls = FindObjectsOfType<WallCreation>();
+        foreach (WallCreation wall in walls)
+        {
+            if (wall.wallCurrentSpeed > 0)
+            {
+                wall.wallCurrentSpeed = 1f;
+            }
+
+        }
+        if (!doThisOnce)
+        {
+            doThisOnce = true;
+            GameObject[] allJeeps = GameObject.FindGameObjectsWithTag("NPCJeep");
+            GameObject[] allRoadBlocks = GameObject.FindGameObjectsWithTag("RoadBlock");
+            GameObject[] allBoss = GameObject.FindGameObjectsWithTag("NPCBoss");
+            npcJeepSpeed = npcBlockSpeed = npcMonsterSpeed = 0;
+            foreach (GameObject jeep in allJeeps)
+            {
+                NpcDeathEffect(jeep.transform.position);
+                Destroy(jeep);
+            }
+            foreach (GameObject block in allRoadBlocks)
+            {
+                NpcDeathEffect(block.transform.position);
+                Destroy(block);
+            }
+            foreach (GameObject boss in allBoss)
+            {
+                NpcDeathEffect(boss.transform.position);
+                Destroy(boss);
+            }
+            playerControl.PlayGameOverAnimation();
+            StartCoroutine(BuggyBoom());
+            StartCoroutine(LoadNextScene());
+        }
+        
+    }
+
+    private IEnumerator BuggyBoom()
+    {
+        yield return new WaitForSeconds(1f);
+        PlayAudioClip(bigExplosion);
+    }
+
+    private IEnumerator LoadNextScene()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene(3);
     }
 }

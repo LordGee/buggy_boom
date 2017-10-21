@@ -8,7 +8,7 @@ public class WallCreation : MonoBehaviour
     public GameObject explosion;
 
     // Private Variables
-    private float wallCurrentSpeed = 10f;
+    public float wallCurrentSpeed = 10f;
     private float scaleX, scaleY, scaleZ;
     private Color col;
 

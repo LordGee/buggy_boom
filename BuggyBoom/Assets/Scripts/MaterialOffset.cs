@@ -6,7 +6,7 @@ public class MaterialOffset : MonoBehaviour
 {
     // Private Variables
     private Renderer rend;
-    private float offsetSpeed = 0.1f;
+    public float offsetSpeed = 0.1f;
     private float initialThreshold = 2.9f;
     private float preIncrementSpeed = 0.001f;
 

@@ -183,4 +183,9 @@ public class PlayerController : MonoBehaviour
         }
         */
     }
+
+    public void PlayGameOverAnimation()
+    {
+        anim.SetBool("GameOver", true);
+    }
 }
