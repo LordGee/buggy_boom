@@ -4779,6 +4779,7 @@ MonoBehaviour:
   explode: {fileID: 1252646203410938, guid: ea9f27d832a4e3a439e4044768e6c5f7, type: 2}
   autoFire: 0
   laser: {fileID: 8300000, guid: 02ee226f1e0c82f4081bd5be91f2b148, type: 3}
+  explosion: {fileID: 8300000, guid: 89e0f69e3ad999a4aa99111f0765d6b7, type: 3}
 --- !u!146 &146045352014527806
 WheelCollider:
   m_ObjectHideFlags: 1

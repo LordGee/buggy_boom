@@ -120,7 +120,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             GameObject newObstacle = Instantiate(obstacle, new Vector3(laneArray[tempLanes[i]], transform.position.y, transform.position.z), Quaternion.identity);
             newObstacle.transform.parent = gameObject.transform;
-            spawnInterval = Random.Range(spawnMin + 0.5f, spawnMax + 0.5f);
+            spawnInterval = Random.Range(spawnMin + 1f, spawnMax + 1f);
         }
     }
 }

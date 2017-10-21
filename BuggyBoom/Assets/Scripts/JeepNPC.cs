@@ -85,7 +85,6 @@ public class JeepNPC : MonoBehaviour {
     {
         if (npcHealth > 10000)
         {
-            print(gameObject);
             Destroy(gameObject);
         }
     }

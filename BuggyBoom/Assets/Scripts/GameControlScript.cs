@@ -47,7 +47,7 @@ public class GameControlScript : MonoBehaviour
 
     // Game Specific Private Variables
     private float progressionTimer, progressionCountdown, progressionIncrementer;
-    private const float maxSpeed = 30f;
+    private const float maxSpeed = 20f;
     private Text scoreDisplay, multiDisplay, healthDisplay;
     private new AudioSource[] audio;
 
@@ -59,7 +59,7 @@ public class GameControlScript : MonoBehaviour
 	    playerMultipler = 1f;
 	    playerPoints = 100f; // Default Amount
 	    progressionTimer = Time.timeSinceLevelLoad;
-	    progressionIncrementer = 0.1f;
+	    progressionIncrementer = 0.8f;
 	    progressionCountdown = 10f;
 	    bossTimer = Time.timeSinceLevelLoad;
 	    bossCountdown = 120f;
@@ -109,6 +109,7 @@ public class GameControlScript : MonoBehaviour
         if (npcJeepSpeed <= maxSpeed)
         {
             ProgressionCalc(ref npcJeepSpeed);
+            ProgressionCalc(ref npcBlockSpeed);
         }
         if (Time.timeSinceLevelLoad - bossTimer > bossCountdown)
         {

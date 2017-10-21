@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Attach Projectile object for the player")] public GameObject projectile;
     [Tooltip("Explode effect when damaged")] public GameObject explode;
     [Tooltip("Auto fire (On / Off)")] public bool autoFire;
-    public AudioClip laser;
+    public AudioClip laser, explosion;
 
     // Private Variables
     private GameControlScript gameControl;
@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
         {
             float dmg = col.gameObject.GetComponentInParent<ProjectileSpawnEnemy>().GetProjectileDamage();
             gameControl.DamagePlayer(dmg);
+            gameControl.PlayAudioClip(explosion);
             GameObject effect = Instantiate(explode, col.transform.position, Quaternion.identity);
             Destroy(effect, 3f);
             Destroy(col.transform.parent.gameObject);
