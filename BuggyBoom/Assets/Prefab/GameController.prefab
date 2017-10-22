@@ -220,11 +220,11 @@ MonoBehaviour:
   - {fileID: 1475219035201014, guid: 4cb96b637fe7c674c807eeb60f292ccd, type: 2}
   - {fileID: 1304268138657870, guid: 81934db83b196c8488ddfee8c4573edd, type: 2}
   npcJeepHealth: 10
-  npcJeepDamage: 2
+  npcJeepDamage: 4
   npcJeepSpeed: 10
   npcJeepPoints: 100
   npcBlockHealth: 999999
-  npcBlockDamage: 999999
+  npcBlockDamage: 100
   npcBlockSpeed: 12
   npcBlockPoints: 0
   npcMonsterHealth: 1000

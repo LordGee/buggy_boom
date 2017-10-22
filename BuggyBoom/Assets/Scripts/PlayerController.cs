@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private GameControlScript gameControl;
     private Animator anim;
     private new AudioSource audio;
+    private PlayerPrefsControlScript playerPrefs;
     private float StartZ;
 
     private float projectileRate = 0.1f;
@@ -33,6 +34,9 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         gameControl = FindObjectOfType<GameControlScript>();
         audio = GetComponent<AudioSource>();
+        playerPrefs = FindObjectOfType<PlayerPrefsControlScript>();
+        audio.volume = playerPrefs.GetSfXVolume();
+        autoFire = playerPrefs.GetAutoFire();
     }
 
 	// Update is called once per frame
@@ -43,7 +47,10 @@ public class PlayerController : MonoBehaviour
 	    {
 	        CheckAutoFire();
         }
-	    CheckManualFire();
+	    else
+	    {
+	        CheckManualFire();
+        }
         CheckPositioningConstraints();
         
 	}

@@ -1,16 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ShredderBack : MonoBehaviour {
+public class ShredderBack : MonoBehaviour
+{
+
+    private GameControlScript gameControl;
+
+    private void Start()
+    {
+        gameControl = FindObjectOfType<GameControlScript>();
+    }
 
     private void OnTriggerEnter(Collider col)
     {
         Destroy(col.gameObject);
         if (col.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene(2);
+            gameControl.currentyGameState = GameControlScript.GAME_STATE.GameOver;
         }
     }
 }

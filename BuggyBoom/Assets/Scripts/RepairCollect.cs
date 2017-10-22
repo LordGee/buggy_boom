@@ -10,7 +10,7 @@ public class RepairCollect : MonoBehaviour {
     // Private Variables
     private GameControlScript gameControl;
     private float speed = 8f;
-    private int repairValue = 20;
+    private int repairValue = 5;
 
     // Use this for initialization
     void Start()
@@ -26,8 +26,11 @@ public class RepairCollect : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        gameControl.RepairBuggy(repairValue);
-        gameControl.PlayAudioClip(clip);
+        if (col.gameObject.tag == "Player")
+        {
+            gameControl.RepairBuggy(repairValue);
+            gameControl.PlayAudioClip(clip);
+        }
         Destroy(gameObject);
     }
 

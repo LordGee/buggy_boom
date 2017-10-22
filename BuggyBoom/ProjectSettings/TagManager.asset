@@ -12,6 +12,7 @@ TagManager:
   - Collect
   - ProjectileEnemy
   - NPCBoss
+  - Shredder
   layers:
   - Default
   - TransparentFX

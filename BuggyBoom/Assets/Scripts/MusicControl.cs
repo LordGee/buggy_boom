@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class MusicControl : MonoBehaviour {
 
     public AudioClip[] musicSelection;
-    public new AudioSource audio;
+
+    private new AudioSource audio;
+    private PlayerPrefsControlScript playerPrefs;
 
     void Awake()
     {
@@ -15,8 +17,9 @@ public class MusicControl : MonoBehaviour {
 
     void Start()
     {
-        // audio = GetComponent<AudioSource>();
-        // audioSource.volume = PlayerPrefsManager.GetMasterVolume();
+        audio = GetComponent<AudioSource>();
+        playerPrefs = FindObjectOfType<PlayerPrefsControlScript>();
+        audio.volume = playerPrefs.GetMusicVolume();
     }
     
     private void OnEnable()
@@ -40,7 +43,7 @@ public class MusicControl : MonoBehaviour {
         }
     }
 
-    public void ChangeVolume(float newVolume)
+    public void ChangeVolume(float newVolume = 1f)
     {
         audio.volume = newVolume;
     }

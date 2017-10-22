@@ -26,8 +26,11 @@ public class BarsCollect : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        gameControl.AddPoints(pointValue);
-        gameControl.PlayAudioClip(clip);
+        if (col.gameObject.tag == "Player")
+        {
+            gameControl.AddPoints(pointValue);
+            gameControl.PlayAudioClip(clip);
+        }
         Destroy(gameObject);
     }
 }

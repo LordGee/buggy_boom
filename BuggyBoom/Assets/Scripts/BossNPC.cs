@@ -54,7 +54,7 @@ public class BossNPC : MonoBehaviour {
             ShootProjectile();
             audio.Play();
             shootTimer = Time.timeSinceLevelLoad;
-            shootFreq = Random.Range(0f, 1f);
+            shootFreq = Random.Range(0.2f, 1f);
         }
     }
 

@@ -471,6 +471,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 943594829}
+--- !u!1001 &989592307
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 597.48975
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 425.8111
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 193.30786
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747635249395546, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 8040b685d0f8f89498b44508e73b1d1b, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1037804540
 Prefab:
   m_ObjectHideFlags: 0
@@ -518,7 +560,7 @@ Prefab:
     - target: {fileID: 114735062471669186, guid: 8483a84f5e605fd47bd541afe6c0a868,
         type: 2}
       propertyPath: autoLoadLevelAfterSeconds
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8483a84f5e605fd47bd541afe6c0a868, type: 2}
@@ -631,8 +673,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 64fee04bdeba0fe40b1468d7021667c6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.5
+  m_Pitch: 0.8
   Loop: 0
   Mute: 0
   Spatialize: 0

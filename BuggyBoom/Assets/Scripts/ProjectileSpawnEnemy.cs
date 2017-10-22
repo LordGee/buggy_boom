@@ -6,7 +6,7 @@ public class ProjectileSpawnEnemy : MonoBehaviour {
 
     // Public Variables
     [Tooltip("Set the speed of the projectile")]
-    public float projectileSpeed = 24f;
+    public float projectileSpeed = 30f;
     [Tooltip("Value is SET by another Script")]
     public float projectileDamage;
 

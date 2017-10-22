@@ -13,4 +13,12 @@ public class ExplodeMovement : MonoBehaviour
     {
 	    transform.Translate(0f, 0f, -(movementSpeed * Time.deltaTime));
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Shredder")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }

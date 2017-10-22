@@ -15,7 +15,7 @@ public class GameControlScript : MonoBehaviour
     // NPC Specific Public Variables
     public GameObject[] npcGameObjects;
     public float npcJeepHealth = 10f;
-    public float npcJeepDamage = 2f;
+    public float npcJeepDamage = 4f;
     public float npcJeepSpeed = 10f;
     public float npcJeepPoints = 100f;
     public float npcBlockHealth = 999999f;
@@ -52,6 +52,7 @@ public class GameControlScript : MonoBehaviour
     private const float maxSpeed = 20f;
     private Text scoreDisplay, multiDisplay, healthDisplay;
     private new AudioSource[] audio;
+    private PlayerPrefsControlScript playerPrefs;
 
 	// Use this for initialization
 	void Start ()
@@ -71,6 +72,7 @@ public class GameControlScript : MonoBehaviour
 	    healthDisplay = GameObject.Find("Text_HealthDisplay").GetComponent<Text>();
 	    audio = GetComponents<AudioSource>();
 	    playerControl = FindObjectOfType<PlayerController>();
+	    playerPrefs = FindObjectOfType<PlayerPrefsControlScript>();
         UpdateHUD();
     }
 	
@@ -189,6 +191,7 @@ public class GameControlScript : MonoBehaviour
                 audio[0].clip = smallExplosion;
             }
             audio[0].transform.position = _obj.transform.position;
+            audio[0].volume = playerPrefs.GetSfXVolume();
             audio[0].Play();
             NpcDeathEffect(_obj.transform.position);
             Destroy(_obj);
@@ -294,6 +297,7 @@ public class GameControlScript : MonoBehaviour
     public void PlayAudioClip(AudioClip _clip)
     {
         audio[1].clip = _clip;
+        audio[1].volume = playerPrefs.GetSfXVolume();
         audio[1].Play();
     }
 

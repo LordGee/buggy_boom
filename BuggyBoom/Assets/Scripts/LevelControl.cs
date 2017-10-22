@@ -15,11 +15,6 @@ public class LevelControl : MonoBehaviour {
         }
     }
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
     public void LoadNextLevel()
     {
         if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
