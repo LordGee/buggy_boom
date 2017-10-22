@@ -368,12 +368,11 @@ public class GameControlScript : MonoBehaviour
             GameObject[] allJeeps = GameObject.FindGameObjectsWithTag("NPCJeep");
             GameObject[] allRoadBlocks = GameObject.FindGameObjectsWithTag("RoadBlock");
             GameObject[] allBoss = GameObject.FindGameObjectsWithTag("NPCBoss");
-            GameObject[] allWalls = GameObject.FindGameObjectsWithTag("Wall");
+            StartCoroutine(HouseBoom());
             npcJeepSpeed = npcBlockSpeed = npcMonsterSpeed = 0;
             DestroyAllObjects(allJeeps);
             DestroyAllObjects(allRoadBlocks);
             DestroyAllObjects(allBoss);
-            DestroyAllObjects(allWalls);
             playerControl.PlayGameOverAnimation();
             StartCoroutine(BuggyBoom());
             StartCoroutine(LoadNextScene());
@@ -393,6 +392,14 @@ public class GameControlScript : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         PlayAudioClip(bigExplosion);
+    }
+
+    private IEnumerator HouseBoom()
+    {
+        yield return new WaitForSeconds(3f);
+        GameObject[] allWalls = GameObject.FindGameObjectsWithTag("Wall");
+        DestroyAllObjects(allWalls);
+        PlayAudioClip(smallExplosion);
     }
 
     private IEnumerator LoadNextScene()

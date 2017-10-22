@@ -15,7 +15,7 @@ public class LevelControl : MonoBehaviour {
         }
     }
 
-    public void QuitReq()
+    public void QuitGame()
     {
         Application.Quit();
     }
