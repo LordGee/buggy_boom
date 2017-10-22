@@ -48,6 +48,14 @@ public class PlayerController : MonoBehaviour
         
 	}
 
+    /* Added this to prevent game continuing if player has already been 
+     * destroyed and it has not been detected. Interesting but doidn't 
+     * work like I hoped */
+    void OnDestroy()
+    {
+        gameControl.currentyGameState = GameControlScript.GAME_STATE.GameOver;
+    }
+
     /* Any horizontal inputs are translated to the new position of the player. 
      * Checks are made for the direction that the player is moving and applys 
      * the correct animation. Rotation was originally done through the code. */

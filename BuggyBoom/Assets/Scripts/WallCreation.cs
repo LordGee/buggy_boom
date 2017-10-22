@@ -37,7 +37,7 @@ public class WallCreation : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag != "Road")
+        if (col.gameObject.tag != "Road" && col.gameObject.tag != "Player")
         {
             Instantiate(explosion, col.transform.position, Quaternion.identity);
             if (col.gameObject.tag == "Projectile")
