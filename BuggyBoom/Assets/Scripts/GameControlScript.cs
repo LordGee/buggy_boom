@@ -368,27 +368,25 @@ public class GameControlScript : MonoBehaviour
             GameObject[] allJeeps = GameObject.FindGameObjectsWithTag("NPCJeep");
             GameObject[] allRoadBlocks = GameObject.FindGameObjectsWithTag("RoadBlock");
             GameObject[] allBoss = GameObject.FindGameObjectsWithTag("NPCBoss");
+            GameObject[] allWalls = GameObject.FindGameObjectsWithTag("Wall");
             npcJeepSpeed = npcBlockSpeed = npcMonsterSpeed = 0;
-            foreach (GameObject jeep in allJeeps)
-            {
-                NpcDeathEffect(jeep.transform.position);
-                Destroy(jeep);
-            }
-            foreach (GameObject block in allRoadBlocks)
-            {
-                NpcDeathEffect(block.transform.position);
-                Destroy(block);
-            }
-            foreach (GameObject boss in allBoss)
-            {
-                NpcDeathEffect(boss.transform.position);
-                Destroy(boss);
-            }
+            DestroyAllObjects(allJeeps);
+            DestroyAllObjects(allRoadBlocks);
+            DestroyAllObjects(allBoss);
+            DestroyAllObjects(allWalls);
             playerControl.PlayGameOverAnimation();
             StartCoroutine(BuggyBoom());
             StartCoroutine(LoadNextScene());
         }
-        
+    }
+
+    private void DestroyAllObjects(GameObject[] _obj)
+    {
+        foreach (GameObject ob in _obj)
+        {
+            NpcDeathEffect(ob.transform.position);
+            Destroy(ob);
+        }
     }
 
     private IEnumerator BuggyBoom()

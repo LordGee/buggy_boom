@@ -5,12 +5,17 @@ using UnityEngine;
 public class WallSpawning : MonoBehaviour
 {
     // Public Variables
-    [Tooltip("Attach Prefab of cube with appropriate Rigidbody and Constraints")]
-    public GameObject wall;
-    
+
+    [Tooltip("Attach multiple meshes of houses")]
+    public GameObject[] house;
+    /* // Used wen generating the objects from a simple cube
+        [Tooltip("Attach Prefab of cube with appropriate Rigidbody and Constraints")]
+        public GameObject wall;
+    */
+
     // Private Variables
     private float timeBeforeFirstSpawn = 2f;
-    private float spawnInterval = 0.5f;
+    private float spawnInterval = 0.75f; // was 0.5f
     private float timeSinceLastSpawn = 0f;
     private bool startSpawning = false;
     
@@ -24,8 +29,8 @@ public class WallSpawning : MonoBehaviour
 	    if (startSpawning && Time.timeSinceLevelLoad - timeSinceLastSpawn > spawnInterval)
 	    {
 	        Vector3 pos = transform.position;
-	        GameObject newWall = Instantiate(wall, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-	        newWall.transform.parent = gameObject.transform;
+	        GameObject newHouse = Instantiate(house[Random.Range(0, house.Length)], new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
+	        newHouse.transform.parent = gameObject.transform;
 	        timeSinceLastSpawn = Time.timeSinceLevelLoad;
 	    }
 	}

@@ -111,8 +111,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1549848579597844, guid: 4675dfc4122b4c34ba0797fe879ba94e, type: 2}
-  spawnInterval: 0.5
-  timeBeforeFirstSpawn: 2
+  house:
+  - {fileID: 1000011868398520, guid: 8029febc87b25ff4a9ebff05fe52fb41, type: 2}
+  - {fileID: 1000014201024826, guid: 57a6f5922e4c5f14f9e79b57209557e8, type: 2}
+  - {fileID: 1000011086151546, guid: 431697e8ec276e94a97b7ef5715e5d8a, type: 2}
 --- !u!114 &114611055892092838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,5 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1549848579597844, guid: 4675dfc4122b4c34ba0797fe879ba94e, type: 2}
-  spawnInterval: 0.5
-  timeBeforeFirstSpawn: 2
+  house:
+  - {fileID: 1000014201024826, guid: 186f25b0163c80f42b4a86c690793452, type: 2}
+  - {fileID: 1000011086151546, guid: f268d41a635271b499c19e7154a03321, type: 2}
+  - {fileID: 1000011868398520, guid: fb28c56cbe98b9944b86dc4658a34987, type: 2}
