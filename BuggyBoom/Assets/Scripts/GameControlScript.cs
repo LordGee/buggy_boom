@@ -398,6 +398,6 @@ public class GameControlScript : MonoBehaviour
     private IEnumerator LoadNextScene()
     {
         yield return new WaitForSeconds(5f);
-        SceneManager.LoadScene(3);
+        FindObjectOfType<LevelControl>().LoadNextLevel();
     }
 }
