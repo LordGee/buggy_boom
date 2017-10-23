@@ -409,6 +409,7 @@ public class GameControlScript : MonoBehaviour
     private IEnumerator LoadNextScene()
     {
         yield return new WaitForSeconds(5f);
+        playerPrefs.SetGameMoney(Mathf.FloorToInt(playerScore));
         FindObjectOfType<LevelControl>().LoadNextLevel();
     }
 }
