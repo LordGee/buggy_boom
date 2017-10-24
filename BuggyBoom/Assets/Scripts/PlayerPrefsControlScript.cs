@@ -15,6 +15,10 @@ public class PlayerPrefsControlScript : MonoBehaviour {
     private const string CURRENT_MONEY = "current_money";
     private const string ACC_MONEY = "accumalitive_money";
 
+    // Buggy Upgrades
+    private const string MIN_HEALTH = "minimum_health";
+    private const string FIRE_POWER = "fire_power";
+    private const string MIN_MULTI = "minimum_multiplier";
 
     void Awake()
     {
@@ -57,6 +61,21 @@ public class PlayerPrefsControlScript : MonoBehaviour {
         PlayerPrefs.SetInt(ACC_MONEY, _value);
     }
 
+    public void SetMinimumHealth(float _value)
+    {
+        PlayerPrefs.SetFloat(MIN_HEALTH, _value);
+    }
+
+    public void SetFirePower(float _value)
+    {
+        PlayerPrefs.SetFloat(FIRE_POWER, _value);
+    }
+
+    public void SetMinimumMultipler(float _value)
+    {
+        PlayerPrefs.SetFloat(MIN_MULTI, _value);
+    }
+
     /* Get values */
     public float GetMusicVolume() { return PlayerPrefs.GetFloat(MUSIC_VOLUME); }
     public float GetSfXVolume() { return PlayerPrefs.GetFloat(SFX_VOLUME); }
@@ -65,4 +84,7 @@ public class PlayerPrefsControlScript : MonoBehaviour {
     public int GetGameMoney() { return PlayerPrefs.GetInt(GAME_MONEY); }
     public int GetCurrentGameMoney() { return PlayerPrefs.GetInt(CURRENT_MONEY); }
     public int GetAccumalitiveMoney() { return PlayerPrefs.GetInt(ACC_MONEY); }
+    public float GetMinimumHealth() { return PlayerPrefs.GetFloat(MIN_HEALTH); }
+    public float GetFirePower() { return PlayerPrefs.GetFloat(FIRE_POWER); }
+    public float GetMinimumMultipler() { return PlayerPrefs.GetFloat(MIN_MULTI); }
 }

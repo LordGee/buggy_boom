@@ -40,6 +40,7 @@ public class GameControlScript : MonoBehaviour
     private float playerScore, playerMultipler, playerPoints;
     private bool invinsible = false, doThisOnce = false;
     private PlayerController playerControl;
+    private float minHealth, minMultiplier, upgradedDamage;
 
     // NPC Specific Private Variables
     private float bossTimer, bossCountdown;
@@ -59,7 +60,7 @@ public class GameControlScript : MonoBehaviour
 	{
 	    currentyGameState = GAME_STATE.Playing;
 	    playerScore = 0f;
-	    playerMultipler = 1f;
+	    playerMultipler = 1;
 	    playerPoints = 100f; // Default Amount
 	    progressionTimer = Time.timeSinceLevelLoad;
 	    progressionIncrementer = 0.8f;
@@ -73,6 +74,12 @@ public class GameControlScript : MonoBehaviour
 	    audio = GetComponents<AudioSource>();
 	    playerControl = FindObjectOfType<PlayerController>();
 	    playerPrefs = FindObjectOfType<PlayerPrefsControlScript>();
+	    minHealth = playerPrefs.GetMinimumHealth();
+	    playerHealth += minHealth;
+	    upgradedDamage = playerPrefs.GetFirePower();
+	    playerDamage += upgradedDamage;
+	    minMultiplier = playerPrefs.GetMinimumMultipler();
+	    playerMultipler += minMultiplier;
         UpdateHUD();
     }
 	
@@ -143,7 +150,7 @@ public class GameControlScript : MonoBehaviour
         if (!invinsible)
         {
             playerHealth -= _dmg;
-            playerMultipler = 1;
+            playerMultipler = 1 + minMultiplier;
             invinsible = !invinsible;
             StartCoroutine(PlayerHit());
         }
@@ -229,10 +236,10 @@ public class GameControlScript : MonoBehaviour
     public void RepairBuggy(float _value)
     {
         playerHealth += _value;
-        if (playerHealth > 100)
+        if (playerHealth > 100 + minHealth)
         {
-            AddPoints(playerHealth - 100);
-            playerHealth = 100;
+            AddPoints(playerHealth - 100 + minHealth);
+            playerHealth = 100 + minHealth;
         }
         UpdateHUD();
     }
