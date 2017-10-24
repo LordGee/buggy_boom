@@ -15,6 +15,7 @@ public class NPCObstacle : MonoBehaviour {
     private float npcDamage;
     private float npcSpeed;
     private float npcPoints;
+    private float changerLane;
 
     void Start()
     {
@@ -23,12 +24,13 @@ public class NPCObstacle : MonoBehaviour {
         npcDamage = gameControl.GetNpcDamage();
         npcSpeed = gameControl.GetNpcSpeed();
         npcPoints = gameControl.GetNpcPoints();
+        changerLane = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(0f, 0f, -(npcSpeed * Time.deltaTime));
+        transform.Translate(changerLane * Time.deltaTime, 0f, -(npcSpeed * Time.deltaTime));
     }
 
     void OnCollisionEnter(Collision col)
@@ -51,5 +53,10 @@ public class NPCObstacle : MonoBehaviour {
     {
         GameObject death = Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
         Destroy(death, 3f);
+    }
+
+    public void ChangeLane(float _newY)
+    {
+        changerLane = _newY;
     }
 }

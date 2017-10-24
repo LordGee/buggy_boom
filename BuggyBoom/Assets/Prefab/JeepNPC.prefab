@@ -615,6 +615,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: 6e33bccef56fe40678fb5405109e495b, type: 2}
   - {fileID: 2100000, guid: 18b77ca565d1a463a97ad28cf586cb1c, type: 2}
+  - {fileID: 2100000, guid: 8936eb416d22ea94d87338cb98a3ca4b, type: 2}
   projectile: {fileID: 1276210249260546, guid: 5166c3d4c0d9f9d498dd69a92eab1cf6, type: 2}
 --- !u!114 &114311906595663962
 MonoBehaviour:
