@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Attach Projectile object for the player")] public GameObject projectile;
     [Tooltip("Explode effect when damaged")] public GameObject explode;
     [Tooltip("Auto fire (On / Off)")] public bool autoFire;
+    [Tooltip("Turn Accelerometer (One/Off)")] public bool accelerometer;
     public AudioClip laser, explosion;
 
     // Private Variables
@@ -36,40 +38,38 @@ public class PlayerController : MonoBehaviour
         playerPrefs = FindObjectOfType<PlayerPrefsControlScript>();
         audio.volume = playerPrefs.GetSfXVolume();
         autoFire = playerPrefs.GetAutoFire();
+        accelerometer = playerPrefs.GetAccelerometer();
     }
 
 	// Update is called once per frame
 	void Update ()
 	{
-        //https://docs.unity3d.com/Manual/PlatformDependentCompilation.html
+        // https://docs.unity3d.com/Manual/PlatformDependentCompilation.html
 #if UNITY_EDITOR
-        
+        StandardBuilds();
 #endif
 
 #if UNITY_PS4
-        
+        PS4Builds();
+#endif
+
+#if UNITY_IOS
+	    MobileBuilds();
 #endif
 
 #if UNITY_ANDROID
-        
+         MobileBuilds();
+#endif
+
+#if UNITY_WEBGL
+        StandardBuilds();
 #endif
 
 #if UNITY_STANDALONE_WIN
-        
+	    StandardBuilds();
 #endif
 
-        CheckHorizontalMovement();
-	    if (autoFire)
-	    {
-	        CheckAutoFire();
-        }
-	    else
-	    {
-	        CheckManualFire();
-        }
-        CheckPositioningConstraints();
-        
-	}
+    }
 
     /* Added this to prevent game continuing if player has already been 
      * destroyed and it has not been detected. Interesting but doidn't 
@@ -79,21 +79,92 @@ public class PlayerController : MonoBehaviour
         gameControl.currentyGameState = GameControlScript.GAME_STATE.GameOver;
     }
 
-    /* Any horizontal inputs are translated to the new position of the player. 
-     * Checks are made for the direction that the player is moving and applys 
-     * the correct animation. Rotation was originally done through the code. */
+    private void StandardBuilds()
+    {
+        if (!accelerometer)
+            CheckHorizontalMovement();
+        else
+            CheckAccelerometerMovement();
+        if (!autoFire)
+            CheckManualFire();
+        else
+            CheckAutoFire();
+    }
+
+    private void PS4Builds()
+    {
+        if (!accelerometer)
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
+                CheckTouchMovement();
+            else
+                CheckHorizontalMovement();
+        else
+            CheckAccelerometerMovement();
+        if (!autoFire)
+            CheckManualFire();
+        else
+            CheckAutoFire();
+    }
+
+    private void MobileBuilds()
+    {
+        if (!accelerometer)
+            CheckTouchMovement();
+        else
+            CheckAccelerometerMovement();
+        if (!autoFire)
+            FireProjectile(); // still fires automatically but permenantly
+        else
+            CheckAutoFire();
+    }
+
+    /* Any horizontal inputs are translated to the new position of the player. */
     private void CheckHorizontalMovement()
     {
         transform.Translate(Input.GetAxis("Horizontal") * buggySpeed * Time.deltaTime, 0f, 0f);
-        if (Input.GetAxis("Horizontal") != 0)
+        CheckBuggyRotation(Input.GetAxis("Horizontal"));
+    }
+
+    /* Any accelerometer inputs are translated on the x axis to the new position of the player. */
+    private void CheckAccelerometerMovement()
+    {
+        transform.Translate(Input.acceleration.x * buggySpeed * Time.deltaTime, 0, 0f);
+        CheckBuggyRotation(Input.acceleration.x);
+    }
+
+    private void CheckTouchMovement()
+    {
+        if (Input.GetTouch(0).position.x < Screen.width / 2)
+        {
+            transform.Translate(-1f * buggySpeed * Time.deltaTime, 0, 0f);
+            CheckBuggyRotation(-1f);
+        }
+        else if (Input.GetTouch(0).position.x > Screen.width / 2)
+        {
+            transform.Translate(1f * buggySpeed * Time.deltaTime, 0, 0f);
+            CheckBuggyRotation(1f);
+        }
+        else
+        {
+            transform.Translate(0f * buggySpeed * Time.deltaTime, 0, 0f);
+            CheckBuggyRotation(0f);
+        }
+        FireProjectile();
+    }
+
+    /* Checks are made for the direction that the player is moving and applys
+     * the correct animation.Rotation was originally done through the code. */
+    private void CheckBuggyRotation(float _direction)
+    {
+        if (_direction != 0)
         {
             // transform.Rotate(0f, GetTranslatedPosition(buggySpeedRot), 0f);
-            if (Input.GetAxis("Horizontal") > 0)
+            if (_direction > 0)
             {
                 anim.SetBool("TurnRight", true);
                 anim.SetBool("TurnLeft", false);
             }
-            else if (Input.GetAxis("Horizontal") < 0)
+            else if (_direction < 0)
             {
                 anim.SetBool("TurnRight", false);
                 anim.SetBool("TurnLeft", true);
@@ -105,6 +176,7 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("TurnRight", false);
             anim.SetBool("TurnLeft", false);
         }
+        CheckPositioningConstraints();
     }
 
     /* If option is selected autofire will use a Sphere Cast to detect enemies 
