@@ -94,11 +94,9 @@ public class PlayerController : MonoBehaviour
     private void PS4Builds()
     {
         if (!accelerometer)
-            if (Input.GetTouch(0).phase == TouchPhase.Began)
-                CheckTouchMovement();
-            else
-                CheckHorizontalMovement();
+            CheckHorizontalMovement();
         else
+            // CheckTouchMovement();
             CheckAccelerometerMovement();
         if (!autoFire)
             CheckManualFire();
@@ -128,6 +126,7 @@ public class PlayerController : MonoBehaviour
     /* Any accelerometer inputs are translated on the x axis to the new position of the player. */
     private void CheckAccelerometerMovement()
     {
+        Debug.Log(Input.acceleration);
         transform.Translate(Input.acceleration.x * buggySpeed * Time.deltaTime, 0, 0f);
         CheckBuggyRotation(Input.acceleration.x);
     }

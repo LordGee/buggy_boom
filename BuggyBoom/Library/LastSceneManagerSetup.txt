@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/BB_00_Splash.unity
+- path: Assets/_Scenes/BB_01_Menu.unity
   isLoaded: 1
   isActive: 1

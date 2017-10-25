@@ -38,10 +38,25 @@ public class MenuControlScript : MonoBehaviour
         SetDefaultValues();
 	}
 
+    private void Update()
+    {
+        /* On PS4 version the slightest touch on the track pad deactivates the navigation 
+         * by setting the current selected object to null. The following should provide a reset. */
+        if (Input.GetAxis("Fire2") != 0)
+        {
+            if (evSystem.currentSelectedGameObject == null)
+            {
+                SetDefaultValues();
+            }
+        }
+        
+    }
+
     private void SetDefaultValues()
     {
         optionCanvas.GetComponent<Canvas>().sortingOrder = -1;
         upgradeCanvas.GetComponent<Canvas>().sortingOrder = -1;
+        evSystem.SetSelectedGameObject(mainStartButton);
         var sliders = optionCanvas.gameObject.GetComponentsInChildren<Slider>();
         foreach (var slider in sliders)
         {
