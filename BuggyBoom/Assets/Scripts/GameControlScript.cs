@@ -19,7 +19,7 @@ public class GameControlScript : MonoBehaviour
     public float npcJeepSpeed = 10f;
     public float npcJeepPoints = 100f;
     public float npcBlockHealth = 999999f;
-    public float npcBlockDamage = 999999f;
+    public float npcBlockDamage = 100f;
     public float npcBlockSpeed = 12f;
     public float npcBlockPoints = 0f;
     public float npcMonsterHealth = 1000f;

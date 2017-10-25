@@ -14,12 +14,15 @@ public class MaterialOffset : MonoBehaviour
 	void Start ()
 	{
 	    rend = GetComponent<Renderer>();
-	}
+	    offsetSpeed = 0.1f;
+	    initialThreshold = 2.9f;
+	    preIncrementSpeed = 0.001f;
+}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		rend.material.SetTextureOffset("_MainTex", new Vector2(0f, -(Time.time * offsetSpeed)));
+		rend.material.SetTextureOffset("_MainTex", new Vector2(0f, -(Time.timeSinceLevelLoad * offsetSpeed)));
 	    if (offsetSpeed < initialThreshold)
 	    {
 	        offsetSpeed += preIncrementSpeed;

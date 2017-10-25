@@ -25,5 +25,4 @@ public class ResultsControlScript : MonoBehaviour
 	    playerPrefs.SetGameMoney(gameScore);
 	    playerPrefs.SetCurrentGameMoney(currentScore);
     }
-
 }

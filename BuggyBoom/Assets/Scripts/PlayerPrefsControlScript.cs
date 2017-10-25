@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerPrefsControlScript : MonoBehaviour {
@@ -23,6 +24,12 @@ public class PlayerPrefsControlScript : MonoBehaviour {
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        if (!PlayerPrefs.HasKey(MUSIC_VOLUME)) { SetMusicVolume(1f); }
+        if (!PlayerPrefs.HasKey(SFX_VOLUME)) { SetSfxVolume(1f); }
     }
 
     /* Set values */

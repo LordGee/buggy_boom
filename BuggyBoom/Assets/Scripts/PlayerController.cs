@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -42,7 +41,24 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    CheckHorizontalMovement();
+        //https://docs.unity3d.com/Manual/PlatformDependentCompilation.html
+#if UNITY_EDITOR
+        
+#endif
+
+#if UNITY_PS4
+        
+#endif
+
+#if UNITY_ANDROID
+        
+#endif
+
+#if UNITY_STANDALONE_WIN
+        
+#endif
+
+        CheckHorizontalMovement();
 	    if (autoFire)
 	    {
 	        CheckAutoFire();

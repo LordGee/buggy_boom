@@ -12,7 +12,7 @@ public class NPCObstacle : MonoBehaviour {
     // Private Variables
     private GameControlScript gameControl;
     private float npcHealth;
-    private float npcDamage;
+    public float npcDamage;
     private float npcSpeed;
     private float npcPoints;
     private float changerLane;
@@ -28,9 +28,9 @@ public class NPCObstacle : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(changerLane * Time.deltaTime, 0f, -(npcSpeed * Time.deltaTime));
+        transform.Translate(changerLane, 0f, -(npcSpeed * Time.deltaTime));
     }
 
     void OnCollisionEnter(Collision col)
@@ -55,8 +55,8 @@ public class NPCObstacle : MonoBehaviour {
         Destroy(death, 3f);
     }
 
-    public void ChangeLane(float _newY)
+    public void ChangeLane(float _newX)
     {
-        changerLane = _newY;
+        changerLane = _newX;
     }
 }

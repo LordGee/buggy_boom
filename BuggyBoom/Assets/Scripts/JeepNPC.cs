@@ -18,11 +18,12 @@ public class JeepNPC : MonoBehaviour {
     private bool shooter, changer;
     private float actionTimer = 0f, actionFreq = 1.5f, minAction = 0.5f, maxAction = 2.5f;
     private float projectileLife = 4f;
-    private float npcDamage, npcHealth, currentX, playerPosition;
-    private int currentIndex, newIndex, playerIndex;
+    private float npcDamage, npcHealth;
+    private int currentIndex, playerIndex;
     private float minMaxPos = 0.99f;
     private NPCObstacle moverScript;
     GameObject jeepBody, player;
+    private float changerMoveCount = 0f;
 
 
     // Use this for initialization
@@ -40,23 +41,20 @@ public class JeepNPC : MonoBehaviour {
         DestroyGlitchedObject();
     }
 
-    /* Randomly chooses if next spawn Jeep is a shooter this then 
-     * determines which material to provide. */
+    /* Randomly chooses if next spawn Jeep is a normal, shooter or changer. */
     void IsShooterAndMaterial()
     {
         jeepBody = transform.Find("JEEP_BODY").gameObject;
         int whichJeep = Random.Range(0, 4);
         if (whichJeep == 1)
         {
-            //shooter = true;
-            changer = true;
+            shooter = true;
             SetUpJeep(1);
         }
         else if (whichJeep == 2)
         {
             changer = true;
-            npcDamage += npcDamage;
-            currentX = gameObject.transform.position.x;
+            moverScript.npcDamage += moverScript.npcDamage;
             SetUpJeep(2);
         }
         else
@@ -67,6 +65,7 @@ public class JeepNPC : MonoBehaviour {
         }
     }
 
+    
     void Update()
     {
         if (Time.timeSinceLevelLoad - actionTimer > actionFreq)
@@ -78,41 +77,45 @@ public class JeepNPC : MonoBehaviour {
             }
             else if (changer)
             {
-                currentX = transform.position.x;
-                if (roadLaneArray[FindCurrentIndex(currentX, 0.25f)] != roadLaneArray[newIndex])
+                currentIndex = FindCurrentIndex(transform.position.x, minMaxPos);
+                playerIndex = FindCurrentIndex(player.gameObject.transform.position.x, minMaxPos);
+                
+                if (playerIndex < currentIndex)
                 {
-                    playerPosition = player.gameObject.transform.position.x;
-                    currentIndex = FindCurrentIndex(currentX, minMaxPos);
-                    playerIndex = FindCurrentIndex(playerPosition, minMaxPos);
-                    if (currentIndex < playerIndex || currentIndex > playerIndex)
-                    {
-                        if (currentIndex > 0 && currentIndex < roadLaneArray.Length)
-                        {
-                            moverScript.ChangeLane(roadLaneArray[playerIndex] - roadLaneArray[currentIndex]);
-                        }
-                    }
-                    else
-                    {
-                        moverScript.ChangeLane(0f);
-                    }
-                    newIndex = currentIndex;
+                    changerMoveCount = -2f;
                 }
-                else
+                else if (playerIndex > currentIndex)
                 {
-                    moverScript.ChangeLane(0f);
+                    changerMoveCount = 2f;
                 }
             }
             actionTimer = Time.timeSinceLevelLoad;
             actionFreq = Random.Range(minAction, maxAction);
         }
+        if (changerMoveCount < -0.1f)
+        {
+            moverScript.ChangeLane(Vector3.left.x * 0.1f);
+            changerMoveCount += 0.1f;
+        }
+        else if (changerMoveCount > 0.1f)
+        {
+            moverScript.ChangeLane(Vector3.right.x * 0.1f);
+            changerMoveCount -= 0.1f;
+        }
+        else
+        {
+            moverScript.ChangeLane(0f);
+        }
     }
 
+    /* Adds the correcct material to the Jeep depending on type */
     void SetUpJeep(int _value)
     {
         jeepBody.GetComponent<Renderer>().material = materials[_value];
         actionTimer = Time.timeSinceLevelLoad;
     }
 
+    /* Finds the correct index in the array of road lane positions */
     private int FindCurrentIndex(float _posX, float _minMaxX)
     {
         int returnIndex = currentIndex;
