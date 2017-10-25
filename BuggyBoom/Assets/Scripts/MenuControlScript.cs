@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
 using Slider = UnityEngine.UI.Slider;
@@ -8,7 +9,7 @@ using Toggle = UnityEngine.UI.Toggle;
 
 public class MenuControlScript : MonoBehaviour
 {
-
+    public GameObject optionStartButton, upgradeStartButton, mainStartButton;
     private GameObject optionCanvas, upgradeCanvas;
     private PlayerPrefsControlScript prefsControl;
     private MusicControl musicControl;
@@ -17,6 +18,7 @@ public class MenuControlScript : MonoBehaviour
     private const int FIRE_POWER = 10000;
     private const int MIN_HEALTH = 50000;
     private const int MULTIPLIER = 250000;
+    private EventSystem evSystem;
 
     // Use this for initialization
     void Start ()
@@ -25,6 +27,7 @@ public class MenuControlScript : MonoBehaviour
 	    upgradeCanvas = GameObject.Find("UpgradeCanvas");
         prefsControl = FindObjectOfType<PlayerPrefsControlScript>();
 	    musicControl = FindObjectOfType<MusicControl>();
+	    evSystem = FindObjectOfType<EventSystem>();
 	    hording = GameObject.Find("Txt_Hordings").GetComponent<Text>();
 	    level = GameObject.Find("Txt_Level").GetComponent<Text>();
 	    firePower = GameObject.Find("Txt_FirePower").GetComponent<Text>();
@@ -76,21 +79,25 @@ public class MenuControlScript : MonoBehaviour
     public void ShowOptionCanvas()
     {
         optionCanvas.GetComponent<Canvas>().sortingOrder = 1;
+        evSystem.SetSelectedGameObject(optionStartButton);
     }
 
     public void HideOptionCanvas()
     {
         optionCanvas.GetComponent<Canvas>().sortingOrder = -1;
+        evSystem.SetSelectedGameObject(mainStartButton);
     }
 
     public void ShowUpgradeCanvas()
     {
         upgradeCanvas.GetComponent<Canvas>().sortingOrder = 1;
+        evSystem.SetSelectedGameObject(upgradeStartButton);
     }
 
     public void HideUpgradeCanvas()
     {
         upgradeCanvas.GetComponent<Canvas>().sortingOrder = -1;
+        evSystem.SetSelectedGameObject(mainStartButton);
     }
 
     public void QuitGame()
